@@ -1,0 +1,32 @@
+---
+title: "Formative Assessment: Object-oriented Programming"
+# subtitle: "C++ Basics"
+author:
+    Khiem Nguyen 
+    <br> Lecturer in Multiscale Materials
+    <br> <khiem.nguyen@glasgow.ac.uk>
+author-meta: "Lecturer in Multiscale Materials"
+jupyter: false
+format: 
+    html:
+        page-layout: full
+        margin-left: 30px
+        margin-right: 30px
+        toc: true
+        toc-depth: 2
+        section-divs: true
+        number-sections: true
+    pdf:
+        margin-left: 25px
+        margin-right: 25px
+        margin-top: 25px
+        margin-bottom: 25px
+        toc: true
+        toc-depth: 2
+        section-divs: true
+        number-sections: true
+---
+
+# This is where Huy starts to write
+
+
