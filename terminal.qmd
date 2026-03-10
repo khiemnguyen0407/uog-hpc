@@ -88,7 +88,7 @@ Users typically access an HPC cluster remotely using **Secure Shell (SSH)**. Aft
 
 # Basic Linux and Terminal Skills for HPC
 
-Most HPC systems run on Linux and are operated through the command line. Therefore, basic familiarity with Linux commands is essential.
+Most HPC systems run on Linux and are operated through the command line (Command Prompt for Windows, Terminal for Mac and Linux). Therefore, basic familiarity with Linux commands is essential.
 
 Key skills include:
 
