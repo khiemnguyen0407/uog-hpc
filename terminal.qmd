@@ -35,7 +35,7 @@ HPC is widely used in science, engineering, medicine, and data-intensive researc
 
 In universities, HPC systems are shared resources that researchers and students access remotely. Because these systems are typically operated through the command line, understanding basic Linux commands and terminal usage is an essential first step to working effectively on an HPC cluster.
 
----
+
 
 # What is HPC?
 
@@ -43,7 +43,7 @@ High-Performance Computing (HPC) uses many interconnected processors to solve co
 
 By distributing workloads across many processors, HPC systems can handle large simulations, data analysis tasks, and computational models that would otherwise take too long to run on a personal computer.
 
----
+
 
 # Why do we use HPC?
 
@@ -56,7 +56,7 @@ Common reasons for using HPC include:
 - Handling **large datasets** in scientific or data-driven research  
 - Training **machine learning and AI models** that require significant computing resources
 
----
+
 
 # Typical Components of an HPC System
 
@@ -78,13 +78,36 @@ Shared storage allows users to access data and results from any node in the clus
 
 A scheduler distributes jobs across available resources such as CPUs, memory, and GPUs. Common schedulers include **SLURM**, **PBS**, and **LSF**.
 
----
+
 
 # How Users Access an HPC Cluster
 
 Users typically access an HPC cluster remotely using **Secure Shell (SSH)**. After logging in, they interact with the system through a terminal to manage files, load software modules, and submit jobs to the scheduler.
 
----
+To connect to the HPC cluster, open a terminal application. This can be:
+
+- **Terminal** on macOS or Linux  
+- **Command Prompt** or **PowerShell** on Windows  
+
+Then run the following command:
+
+```
+ssh <id>@cognition.cose.gla.ac.uk
+```
+
+where `<id>` should be replaced with your university or HPC username.
+
+![Example SSH login to the HPC cluster](terminal-images/login.png){width=80%}
+
+After running the command, you will be prompted to enter your password. While typing the password, **no characters or cursor movement will appear on the screen**. This is normal behaviour in Linux systems for security reasons. Simply type your password carefully and press **Enter**.
+
+During the first login, you may be asked to reset your password. If prompted:
+
+1. Enter your **current password** (the one used to log in).
+2. Enter a **new password**.
+3. Re-enter the new password to confirm.
+
+Once the password is successfully updated, you will be logged into the HPC system and will see the command-line prompt.
 
 # Basic Linux and Terminal Skills for HPC
 
@@ -92,19 +115,416 @@ Most HPC systems run on Linux and are operated through the command line (Command
 
 Key skills include:
 
-**File system navigation**  
-Moving between directories and listing files.  
-Examples: `pwd`, `ls`, `cd`
+## File System Navigation
 
-**File management**  
-Creating, copying, moving, and deleting files.  
-Examples: `mkdir`, `cp`, `mv`, `rm`, `sftp`
+When working on an HPC system, most interaction happens through the **file system**.  
+Understanding how to check your location and move between directories is essential.
 
-**Viewing file contents**  
-Inspecting files directly from the terminal.  
-Examples: `cat`, `less`, `head`, `tail`
+### Check Your Current Location (`pwd`)
 
-**Running programs**  
-Executing scripts or submitting jobs to the scheduler.
+The command `pwd` stands for **print working directory**.  It tells you where you currently are in the file system.
 
-Understanding these commands provides the foundation for working effectively on an HPC system.
+Example:
+
+```
+pwd
+```
+
+Example output:
+
+![Example SSH login to the HPC cluster](terminal-images/pwd.png){width=80%}
+
+This means you are currently inside your **home directory**.
+
+It is good practice to run `pwd` when you are unsure where you are in the file system.
+
+
+
+### List Files and Folders (`ls`)
+
+The `ls` command shows the contents of the current directory.
+
+Example:
+```
+ls
+```
+
+Example output:
+
+![List files and folders](terminal-images/ls.png){width=80%}
+
+Other significant command is to add -l for showing additional informations.
+
+Example:
+```
+ls -l
+```
+
+Example output:
+
+![List of Files and Folders with Additional Informations](terminal-images/ls.png){width=80%}
+
+This shows additional information such as:
+- file permissions
+- file size
+- modification time
+
+
+
+### Change Directory (`cd`)
+
+The `cd` command allows you to move between directories.
+
+Example:
+```
+cd Test
+```
+Example output:
+
+![Moving directories](terminal-images/cd.png){width=80%}
+
+### Simple training method (change directory)
+
+## File Management
+
+File management allows users to create directories, copy files, move files, and remove files within the HPC system. These commands are essential for organising data and managing project files.
+
+The most commonly used commands are:
+
+- `mkdir` – create a new directory  
+- `cp` – copy files or directories  
+- `mv` – move or rename files  
+- `rm` – remove files or directories  
+- `sftp` – transfer files between your computer and the HPC system
+
+### Create a Directory (`mkdir`)
+
+The `mkdir` command creates a new folder. The `nano` command create a new text file for our tests.
+
+```
+mkdir newFolder
+nano text1.txt
+```
+
+When using the nano command, you will encounter movement to different UI, dont worry and for now, just exit the UI.
+
+You can confirm the new folder was created by 
+```
+ls
+```
+
+Example output:
+
+![Making new directory](terminal-images/mkdir.png){width=80%}
+
+
+
+### Copy Files (`cp`)
+
+The `cp` command copies a file from one location to another.
+
+Example:
+
+```
+cp text1.txt text2.txt
+```
+
+Example output:
+
+![Copy files to different file name](terminal-images/cp-duplicate.png){width=80%}
+
+This creates a copy of `text1.txt` called `text2.txt`.
+
+You can also copy a file into a directory.
+
+Example:
+
+```
+cp text1.txt newFolder/
+```
+
+Example output:
+
+![Copy files to folder](terminal-images/cp-to-folder.png){width=80%}
+
+This creates a copy of `text1.txt` inside `newFolder`.
+
+### Move or Rename Files (`mv`)
+
+The `mv` command moves files between directories or renames them.
+
+Rename a file:
+
+```
+mv text1.txt newfile.txt
+```
+
+Example output: 
+
+![Rename files](terminal-images/mv-rename.png){width=80%}
+
+This renames `text1.txt` to `newfile.txt`
+
+Move a file to directory:
+
+```
+mv text2.txt newFolder/
+```
+
+Example output:
+
+![Moving files to folder](terminal-images/mv-move-to-folder.png){width=80%}
+
+This moves `text2.txt` to `newFolder`
+
+
+### Remove Files (`rm`)
+
+The `rm` command removes files.
+
+Example:
+
+```
+rm text1.txt
+```
+
+Example output:
+
+![Remove files](terminal-images/rm-file.png){width=80%}
+
+This removes `text2.txt`.
+
+To remove a folder, add -r to the given command.
+
+Example:
+```
+mkdir removable-folder
+ls
+rm -r removable-folder
+```
+
+Example output:
+
+![Remove folder](terminal-images/rm-folder.png){width=80%}
+
+This removes `removable-folder` and all corresponding files inside.
+
+⚠ **Important:**  
+Files deleted with `rm` are permanently removed.  
+There is **no recycle bin or undo option** on most HPC systems.
+
+Always confirm your location before deleting files:
+```
+pwd
+```
+
+
+
+### Transfer Files Using `sftp`
+
+Files can be transferred between your local computer and the HPC cluster using `sftp`.
+
+Start an SFTP session:
+```
+sftp <id>@cognition.cose.gla.ac.uk
+```
+
+Once connected, you can move your files:
+
+```
+put <file directory>
+```
+
+As an example, we want to put the helloworld.ipnyb in our training-files to the hpc system from our local computer.
+
+Example code:
+
+```
+put <file directory>/hello-world.ipynb 
+``` 
+
+Example output:
+
+![Practice putting files using SFTP.](terminal-images/sftp-put.png){width=80%}
+
+
+Or download your file from HPC:
+
+As an example, we want to download the same file into our local computer.
+
+```
+get <file/folder in hpc> <file/folder directory> 
+```
+
+Example output:
+
+![Practice downloading files using SFTP.](terminal-images/sftp-get.png){width=80%}
+
+### Practice Example
+Here are simple practice example for familiarise yourself with Linux system.
+
+Example code:
+```
+mkdir testfolder
+nano text1.txt
+ls
+cp text1.txt testfolder/
+mv text1.txt file_backup.txt
+ls 
+rm file_backup.txt
+ls
+cd testfolder
+ls
+```
+
+Example output:
+
+![Practice example code and its given output](terminal-images/file-manipulation-practice.png){width=80%}
+
+These commands will help you practise creating directories, copying files, moving files, and removing files.
+
+In order to use this training, we upload hpc-text.txt that is shared in this github using SFTP by using:
+
+```
+sftp <id>@cognition.cose.gla.ac.uk
+put <directory>/hpc-text.txt
+```
+
+
+## Viewing File Contents
+
+Sometimes it is useful to inspect the contents of a file directly from the terminal without opening a full text editor. Linux provides several commands that allow users to quickly view files.
+
+Common commands include:
+
+- `cat` – display the entire file  
+- `less` – view a file page by page  
+- `head` – show the first lines of a file  
+- `tail` – show the last lines of a file
+
+---
+
+### Display an Entire File (`cat`)
+
+The `cat` command prints the full contents of a file directly in the terminal.
+
+```
+cat hpc-text.txt
+```
+
+Example output:
+
+![Viewing entire file using cat](terminal-images/cat.png){width=80%}
+
+This command works well for **small files**, but it may flood the screen if the file is very large.
+
+---
+
+### View Files Page by Page (`less`)
+
+The `less` command allows you to scroll through a file interactively.
+
+Inside `less`, you can:
+
+- press **Space** to scroll down
+- press **b** to scroll up
+- press **q** to quit
+
+This is the preferred command for viewing **large files**.
+
+Example:
+```
+less hpc-text.txt
+```
+
+Example output:
+
+![Viewing entire file using less](terminal-images/less.png){width=80%}
+
+
+### View the Beginning of a File (`head`)
+
+The `head` command shows the **first 10 lines** of a file.
+
+Example:
+```
+head hpc-text.txt
+```
+
+Example output:
+
+![Viewing beginning of a file using head](terminal-images/head.png){width=80%}
+
+You can specify the number of lines:
+
+```
+head -n 5 file.txt
+```
+
+---
+
+### View the End of a File (`tail`)
+
+The `tail` command shows the **last 10 lines** of a file.
+
+Example:
+```
+tail hpc-text.txt
+```
+
+Example output:
+
+![Viewing end of file using tail](terminal-images/tail.png){width=80%}
+
+You can specify the number of lines:
+
+```
+tail -n 5 file.txt
+```
+
+These commands allow you to quickly inspect files without opening a text editor.
+
+One key example is to take the last data in the log file, which is coming quite handy in some analysis:
+
+```
+tail -f output.log
+```
+
+---
+
+### Practice Exercise
+
+Try the following commands:
+```
+cat hpc-text.txt
+less hpc-text.txt
+head hpc-text.txt
+tail hpc-text.txt
+```
+
+These commands allow you to quickly inspect files without opening a text editor and feel the difference between each methods.
+
+## Running Programs
+
+After navigating files and managing directories, the next step in using an HPC system is running programs. Programs can be executed directly from the terminal or submitted as jobs to the scheduler.
+
+In general:
+
+- small tests or simple scripts can be run directly in the terminal
+- larger computations should be submitted to the scheduler
+
+---
+
+### Running a Script Directly
+
+If you have a script file (for example a shell script), you can run it using:
+
+
+After that, the script can be executed using:
+
+
+---
+
+### Example Script
+
+A simple example script might look like this:
