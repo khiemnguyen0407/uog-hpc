@@ -2,10 +2,10 @@
 title: "Terminal and HPC 101"
 # subtitle: "Terminal 101"
 author:
-    Khiem Nguyen 
-    <br> Lecturer in Multiscale Materials
-    <br> <khiem.nguyen@glasgow.ac.uk>
-author-meta: "Lecturer in Multiscale Materials"
+    Dewangga Alfarisy
+    <br> PhD in Civil Engineering
+    <br> <dewangga.alfarisy@glasgow.ac.uk>
+author-meta: "PhD in Civil Engineering"
 jupyter: false
 format: 
     html:
@@ -43,8 +43,6 @@ High-Performance Computing (HPC) uses many interconnected processors to solve co
 
 By distributing workloads across many processors, HPC systems can handle large simulations, data analysis tasks, and computational models that would otherwise take too long to run on a personal computer.
 
-
-
 # Why do we use HPC?
 
 Many scientific and engineering problems require more computational power than a typical laptop or desktop can provide. HPC enables researchers to perform large-scale calculations efficiently.
@@ -55,8 +53,6 @@ Common reasons for using HPC include:
 - **Reducing computation time** through parallel processing  
 - Handling **large datasets** in scientific or data-driven research  
 - Training **machine learning and AI models** that require significant computing resources
-
-
 
 # Typical Components of an HPC System
 
@@ -77,8 +73,6 @@ Shared storage allows users to access data and results from any node in the clus
 **Job Scheduler**
 
 A scheduler distributes jobs across available resources such as CPUs, memory, and GPUs. Common schedulers include **SLURM**, **PBS**, and **LSF**.
-
-
 
 # How Users Access an HPC Cluster
 
@@ -107,7 +101,7 @@ During the first login, you may be asked to reset your password. If prompted:
 2. Enter a **new password**.
 3. Re-enter the new password to confirm.
 
-Once the password is successfully updated, you will be logged into the HPC system and will see the command-line prompt.
+Once the password is successfully updated, you will be logged out of the HPC system. Simply put again the ssh sign and re-login with the new password.
 
 # Basic Linux and Terminal Skills for HPC
 
@@ -132,13 +126,11 @@ pwd
 
 Example output:
 
-![Example SSH login to the HPC cluster](terminal-images/pwd.png){width=80%}
+![Location checking using pwd](terminal-images/pwd.png){width=80%}
 
 This means you are currently inside your **home directory**.
 
 It is good practice to run `pwd` when you are unsure where you are in the file system.
-
-
 
 ### List Files and Folders (`ls`)
 
@@ -165,6 +157,7 @@ Example output:
 ![List of Files and Folders with Additional Informations](terminal-images/ls.png){width=80%}
 
 This shows additional information such as:
+
 - file permissions
 - file size
 - modification time
@@ -182,8 +175,6 @@ cd Test
 Example output:
 
 ![Moving directories](terminal-images/cd.png){width=80%}
-
-### Simple training method (change directory)
 
 ## File Management
 
@@ -314,11 +305,10 @@ Files deleted with `rm` are permanently removed.
 There is **no recycle bin or undo option** on most HPC systems.
 
 Always confirm your location before deleting files:
+
 ```
 pwd
 ```
-
-
 
 ### Transfer Files Using `sftp`
 
@@ -390,6 +380,59 @@ sftp <id>@cognition.cose.gla.ac.uk
 put <directory>/hpc-text.txt
 ```
 
+## Adding texts to file
+
+### Using echo to create files
+
+We can use echo to create text files,
+
+Example:
+
+```
+echo "This is a test"
+```
+
+Example output:
+
+![Echo some words](terminal-images/echo-base.png){width=80%}
+
+Yes, echo just prints its arguments back out again (hence the name). But combine it with a redirect, and you’ve got a way to easily create small test files:
+
+Now we are saving the words we put in echo as a txt file.
+
+Example:
+
+```
+echo "This is a test" > text1.txt
+echo "This is a second test" > text2.txt
+```
+
+Example output:
+
+![Echo saving the words as txt](terminal-images/echo-save.png){width=80%}
+
+We also can link both files together as one, this is called concatenate. The first two combined will concatenate the file together and the last > will act as saving to a new file.
+
+Example:
+```
+cat text_1.txt text_2.txt > cat.txt
+```
+
+Example output:
+
+![Concatenate using cat to combine both files as new txt](terminal-images/concatenate.png){width=80%}
+
+### Using nano to modify file
+
+Using nano is much more straightforward as we can directly edit the file in the nano ecosystem and we can do various things on this environment too. We can directly edit, modify and save the files using this software.
+
+```
+nano test_1.txt
+```
+
+Example output:
+
+![Nano user interface in terminal.](terminal-images/nano.png){width=80%}
 
 ## Viewing File Contents
 
@@ -401,8 +444,6 @@ Common commands include:
 - `less` – view a file page by page  
 - `head` – show the first lines of a file  
 - `tail` – show the last lines of a file
-
----
 
 ### Display an Entire File (`cat`)
 
@@ -418,7 +459,7 @@ Example output:
 
 This command works well for **small files**, but it may flood the screen if the file is very large.
 
----
+
 
 ### View Files Page by Page (`less`)
 
@@ -461,8 +502,6 @@ You can specify the number of lines:
 head -n 5 file.txt
 ```
 
----
-
 ### View the End of a File (`tail`)
 
 The `tail` command shows the **last 10 lines** of a file.
@@ -490,7 +529,7 @@ One key example is to take the last data in the log file, which is coming quite 
 tail -f output.log
 ```
 
----
+
 
 ### Practice Exercise
 
@@ -513,18 +552,88 @@ In general:
 - small tests or simple scripts can be run directly in the terminal
 - larger computations should be submitted to the scheduler
 
----
+### Running a Script Directly using python
 
-### Running a Script Directly
+First, we create a simple script using nano. The file should directly printing "Hello world!" as a simple example.
 
-If you have a script file (for example a shell script), you can run it using:
+Example:
+```
+nano testrun.py
+```
 
+Example output:
 
-After that, the script can be executed using:
+![Making new py files.](terminal-images/nano-writing.png){width=80%}
 
+In nano user interface, we use simple command to print "Hello world!".
 
----
+Example:
 
-### Example Script
+```
+print("Hello world!")
+```
 
-A simple example script might look like this:
+Example output:
+
+![Writing up hello world in nano.](terminal-images/nano-testrun.png){width=80%}
+
+Then, we can check the hpc system if they have a python installed and we can use their python. We can check the module by using the following code
+
+Example:
+
+```
+module avail
+```
+
+Example output:
+
+![Loading up available module](terminal-images/module-avail.png){width=80%}
+
+In the cognition, we have miniforge so we can load the miniforge. Copy the file names of the miniforge like the one below (updated 17/3/2026)
+
+Example:
+
+```
+module load miniforge3/25.3.0-3/none-none/a-4lhn6xy 
+```
+
+Example output:
+
+![Loading up miniforge module](terminal-images/miniforge.png){width=80%}
+
+From here on, we can make conda environment as usual, for simplicity, we will use the base.
+
+Example:
+
+```
+conda activate base
+```
+
+Example output:
+
+![Loading up conda environment.](terminal-images/miniforge.png){width=80%}
+
+From here, we can run the python3 file as usual.
+
+Example:
+
+```
+python testrun.py
+```
+
+Example output:
+
+![Running python testrun.py file.](terminal-images/python-run.png){width=80%}
+
+However, when trying to run the python notebook (ipynb files), we need to convert it first to a standard python notebook. 
+
+Example:
+
+```
+jupyter nbconvert --to python hello-world.ipynb
+python hello-world.py
+```
+
+Example output:
+
+![Converting and running jupyter notebook (ipynb) file.](terminal-images/nbconvert.png){width=80%}
