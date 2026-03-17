@@ -8,7 +8,7 @@
 
 <meta name="author" content="Lecturer in Multiscale Materials">
 
-<title>Formative Assessment: Object-oriented Programming</title>
+<title>Terminal and HPC 101</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,86 +21,22 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="example_files/libs/clipboard/clipboard.min.js"></script>
-<script src="example_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="example_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="example_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="example_files/libs/quarto-html/popper.min.js"></script>
-<script src="example_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="example_files/libs/quarto-html/anchor.min.js"></script>
-<link href="example_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="example_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="example_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="example_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="example_files/libs/bootstrap/bootstrap-a8351980783011081fa0126aa6f0ebb3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="terminal_files/libs/clipboard/clipboard.min.js"></script>
+<script src="terminal_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="terminal_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="terminal_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="terminal_files/libs/quarto-html/popper.min.js"></script>
+<script src="terminal_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="terminal_files/libs/quarto-html/anchor.min.js"></script>
+<link href="terminal_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="terminal_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="terminal_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="terminal_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="terminal_files/libs/bootstrap/bootstrap-a8351980783011081fa0126aa6f0ebb3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -113,19 +49,19 @@ window.Quarto = {
    
   <ul class="collapse">
   <li><a href="#foreword" id="toc-foreword" class="nav-link active" data-scroll-target="#foreword"><span class="header-section-number">1</span> Foreword</a></li>
-  <li><a href="#projects-for-writing-classes" id="toc-projects-for-writing-classes" class="nav-link" data-scroll-target="#projects-for-writing-classes"><span class="header-section-number">2</span> Projects for writing classes</a>
-  <ul class="collapse">
-  <li><a href="#complex-numbers" id="toc-complex-numbers" class="nav-link" data-scroll-target="#complex-numbers"><span class="header-section-number">2.1</span> Complex numbers</a></li>
-  <li><a href="#fractions" id="toc-fractions" class="nav-link" data-scroll-target="#fractions"><span class="header-section-number">2.2</span> Fractions</a></li>
-  </ul></li>
+  <li><a href="#what-is-hpc" id="toc-what-is-hpc" class="nav-link" data-scroll-target="#what-is-hpc"><span class="header-section-number">2</span> What is HPC?</a></li>
+  <li><a href="#why-do-we-use-hpc" id="toc-why-do-we-use-hpc" class="nav-link" data-scroll-target="#why-do-we-use-hpc"><span class="header-section-number">3</span> Why do we use HPC?</a></li>
+  <li><a href="#typical-components-of-an-hpc-system" id="toc-typical-components-of-an-hpc-system" class="nav-link" data-scroll-target="#typical-components-of-an-hpc-system"><span class="header-section-number">4</span> Typical Components of an HPC System</a></li>
+  <li><a href="#how-users-access-an-hpc-cluster" id="toc-how-users-access-an-hpc-cluster" class="nav-link" data-scroll-target="#how-users-access-an-hpc-cluster"><span class="header-section-number">5</span> How Users Access an HPC Cluster</a></li>
+  <li><a href="#basic-linux-and-terminal-skills-for-hpc" id="toc-basic-linux-and-terminal-skills-for-hpc" class="nav-link" data-scroll-target="#basic-linux-and-terminal-skills-for-hpc"><span class="header-section-number">6</span> Basic Linux and Terminal Skills for HPC</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="example.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="terminal.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
 <main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Formative Assessment: Object-oriented Programming</h1>
+<h1 class="title">Terminal and HPC 101</h1>
 </div>
 
 
@@ -150,93 +86,66 @@ window.Quarto = {
 
 <section id="foreword" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Foreword</h1>
-<p>Solving these formative assignments will help you</p>
+<p>High-Performance Computing (HPC) refers to the use of powerful computers that combine many processors to solve problems much faster than a typical personal computer. Instead of relying on a single CPU, HPC systems distribute work across many CPUs or GPUs, allowing complex computations to be performed efficiently.</p>
+<p>HPC is widely used in science, engineering, medicine, and data-intensive research. For example, engineers use HPC to run large simulations, process large datasets, train machine learning models, and perform advanced optimisation or uncertainty analysis.</p>
+<p>In universities, HPC systems are shared resources that researchers and students access remotely. Because these systems are typically operated through the command line, understanding basic Linux commands and terminal usage is an essential first step to working effectively on an HPC cluster.</p>
+<hr>
+</section>
+<section id="what-is-hpc" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> What is HPC?</h1>
+<p>High-Performance Computing (HPC) uses many interconnected processors to solve computational problems faster than a standard computer. These systems are often organised as <strong>clusters</strong>, where multiple machines work together to perform tasks in parallel.</p>
+<p>By distributing workloads across many processors, HPC systems can handle large simulations, data analysis tasks, and computational models that would otherwise take too long to run on a personal computer.</p>
+<hr>
+</section>
+<section id="why-do-we-use-hpc" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Why do we use HPC?</h1>
+<p>Many scientific and engineering problems require more computational power than a typical laptop or desktop can provide. HPC enables researchers to perform large-scale calculations efficiently.</p>
+<p>Common reasons for using HPC include:</p>
 <ul>
-<li>build muscle memory that will be useful for the paper exam in May</li>
-<li>enhance your skills and knowledge for assignment 02</li>
-<li>gain some little insight how widely used library such as NumPy is built. Of course, what we are doing here is not entirely done the same way in building such a massive library.</li>
+<li>Running <strong>large simulations</strong> such as fluid dynamics or structural modelling<br>
+</li>
+<li><strong>Reducing computation time</strong> through parallel processing<br>
+</li>
+<li>Handling <strong>large datasets</strong> in scientific or data-driven research<br>
+</li>
+<li>Training <strong>machine learning and AI models</strong> that require significant computing resources</li>
 </ul>
-<p>There will be four assignments and the first two are very similar to each other and the last two are inspired by <code>numpy.ndarray</code> and <code>numpy.Poly1D</code>.</p>
-<ol type="1">
-<li>Build a class representing fraction numbers</li>
-<li>Build a class representing complex numbers</li>
-<li>Build a class representing matrices in linear algebra</li>
-<li>Build a class representing 1-dimenional polynomials</li>
-</ol>
-<p>The first two assignments are taken directly from the mock exam last year and the past exam paper in 2025. The two assignments are so similar that you can practice with only one and move on to the more challengining assignment such as classes for matrices and for polynomials.</p>
-<blockquote class="blockquote">
-<p><strong>Note</strong>&nbsp; Try not to look at the solution from the mock exam and the past exam. Feel free to ask questions in the computer labs if needed. If you get stuck, go back to the lecture slides. In this way, you can build your muscle memory.</p>
-</blockquote>
+<hr>
 </section>
-<section id="projects-for-writing-classes" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Projects for writing classes</h1>
-<section id="complex-numbers" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="complex-numbers"><span class="header-section-number">2.1</span> Complex numbers</h2>
-<p>In mathematics, a complex number is an element of a number system that extends the real numbers with specific element denoted <span class="math inline">\(\mathrm{i}\)</span>, called the imaginary unit and satisfying the equation <span class="math inline">\(\mathrm{i}^2 = -1\)</span> (or equivalently <span class="math inline">\(\mathrm{i} = \sqrt{-1}\)</span>). Every complex number <span class="math inline">\(z\)</span> can be expressed in the form <span class="math inline">\(z = a + b \mathrm{i}\)</span>, where <span class="math inline">\(a \in \mathbb{R}\)</span> and <span class="math inline">\(b \in \mathbb{R}\)</span> are real numbers. Two complex numbers <span class="math inline">\(z_1 = a_1 + b_1 \mathrm{i}\)</span> and <span class="math inline">\(z_2 = a_2 + b_2 \mathrm{i}\)</span> are added according to the rule <span class="math display">\[
-z_1 + z_2 = (a_1 + a_2) + (b_1 + b_2) \mathrm{i},
-\]</span> and multiplied by each other according to the rule <span class="math display">\[
-z_1 \cdot z_2 = (a_1 \cdot a_2 - b_1 \cdot b_2) + (a_1 \cdot b_2 + a_2 \cdot b_1) \mathrm{i}.
-\]</span></p>
-<p><strong>Your task is to write C++ code</strong> to define a class <code>ComplexNumber</code>, its data members, member functions, and non-member functions (if there are) to reflect the above description. You should see (a) – (h) questions.</p>
-<ol type="1">
-<li><p>Write code to define the class <code>ComplexNumber</code> with two private data members, named <code>re</code> and <code>im</code>.</p></li>
-<li><p>Write a constructor receiving two input arguments <code>re</code> and <code>im</code> with default value <span class="math inline">\(0\)</span> to initialize the data members described in (a). Use member initializer list (not the assignment statements) to initialize these data members.</p></li>
-<li><p>Write a function overloading the operator <code>&lt;&lt;</code> of the object <code>std::ostream</code> so that the statement <code>std::cout &lt;&lt; comp_num;</code> works for the <code>ComplexNumber</code> object <code>comp_num</code>. You must decide the print-out format that makes sense to the user. For example, consider the following numbers: <span class="math inline">\(1 + 0\,\mathrm{i} = 1\)</span> and <span class="math inline">\(0 + 2\,\mathrm{i} = 2\,\mathrm{i}\)</span>.</p></li>
-<li><p>Write functions to overload the operator <code>+</code> (plus sign) and the operator <code>*</code> (multiplication sign) to reflect the addition and multiplication of two complex numbers, respectively. Essentially, the following statements should work after overloading the operators <code>&lt;&lt;</code>, <code>+</code> and <code>*</code> for the complex numbers:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> a <span class="op">+</span> b<span class="op">;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> a <span class="op">*</span> b<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>Write a member function with name <code>pow</code> to compute the power <span class="math inline">\(z^{n}\)</span> of the complex number <span class="math inline">\(z\)</span> with <span class="math inline">\(n\)</span> being a non-negative integer. Recall that <span class="math display">\[
-  z^{0} = 1,\quad z^{1} = z, \quad z^{2} = z \cdot z, \quad z^{3} = z\cdot z \cdot z, \quad z^{n} = \underbrace{z \cdot \cdots \cdot z}_{n \text{ terms}}.
-  \]</span></p></li>
-<li><p>Write a function to overload the assignment operator <code>=</code> for a <code>ComplexNumber</code> object so that the following statement works:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span>  <span class="co">// a, b, c are all ComplexNumber objects</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>Write a class <code>RealNumber</code> derived from the class <code>ComplexNumber</code> you have defined above. The class <code>RealNumber</code> must have a constructor receiving one <code>double</code> number and make sure that the imaginary part derived from the parent class is equal to zero.</p></li>
-<li><p>Write a <code>main</code> function to perform the following tasks:</p></li>
-</ol>
-<ul>
-<li>Create an array of five <code>ComplexNumber</code> elements using dynamic memory allocation with a pointer to <code>ComplexNumber</code>. Remember to clean up the memory when you do not need the array anymore.</li>
-<li>Initialize these five complex numbers using the <code>for</code>-loop to obtain five numbers (note the pattern of the real parts and imaginary parts of these numbers): <span class="math display">\[
-z_{1} = 1 + 2\,\mathrm{i},\quad  z_{2} = 2 + 3\,\mathrm{i}, \quad z_3 = 3 + 4\,\mathrm{i}, \quad z_4 = 4 + 5\,\mathrm{i}, \quad z_5 = 5 + 6\,\mathrm{i}.
-\]</span></li>
-</ul>
-<ol start="4" type="1">
-<li>Compute the sum <span class="math inline">\(\displaystyle s = \sum\limits_{j=1}^{5} z_{j}\)</span> of these five numbers using the <code>for</code>-loop and print the resulted sum <span class="math inline">\(s\)</span> to the console.</li>
-<li>With <span class="math inline">\(z = 1 + 2\,\mathrm{i}\)</span>, compute the expression <span class="math display">\[
-    \Lambda = 1 + z + z^2 + z^3 + z^4 + z^5
-    \]</span> using the <code>for</code>-loop.</li>
-</ol>
-<p>Note that you can write any helper functions that are not defined by answering the above questions to complete the <code>main</code> <em>function and other functions</em>.</p>
-<p><strong>Hint</strong>&nbsp; <code>static_cast&lt;double&gt;(12)</code> will convert the <code>int</code> <span class="math inline">\(12\)</span> into the <code>double</code> <span class="math inline">\(12.0\)</span>.</p>
+<section id="typical-components-of-an-hpc-system" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Typical Components of an HPC System</h1>
+<p>An HPC cluster typically includes several key components:</p>
+<p><strong>Login Nodes</strong></p>
+<p>Login nodes are the entry point to the cluster. Users connect to these nodes remotely to manage files, prepare scripts, and submit jobs.</p>
+<p><strong>Compute Nodes</strong></p>
+<p>Compute nodes perform the actual computations. Jobs submitted by users are scheduled to run on these machines.</p>
+<p><strong>Storage Systems</strong></p>
+<p>Shared storage allows users to access data and results from any node in the cluster.</p>
+<p><strong>Job Scheduler</strong></p>
+<p>A scheduler distributes jobs across available resources such as CPUs, memory, and GPUs. Common schedulers include <strong>SLURM</strong>, <strong>PBS</strong>, and <strong>LSF</strong>.</p>
+<hr>
 </section>
-<section id="fractions" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="fractions"><span class="header-section-number">2.2</span> Fractions</h2>
-<p>Your task is to write C++ code to define a class <code>Fraction</code>, its data members, member functions, and non-member functions (if applicable) to fulfill the following description.</p>
-<ol type="1">
-<li><p>An object of type <code>Fraction</code> has two private data members of integer type, named <code>nom</code> and <code>denom</code>.</p></li>
-<li><p>Write a constructor receiving two input arguments <code>nom</code> and <code>denom</code> with appropriate default values to initialize the data members. Use a member initializer list (not assignment statements). Ensure that the denominator cannot be zero: provide a warning and set the denominator to <span class="math inline">\(1\)</span> if <span class="math inline">\(0\)</span> is provided.</p></li>
-<li><p>Write a member function to perform the addition of two fractions. You need to decide what the inputs and outputs of this function should be.</p></li>
-<li><p>Write a member function to perform the multiplication of two fractions.</p></li>
-<li><p>Overload the operator <code>&lt;&lt;</code> for <code>std::ostream</code> so that <code>std::cout &lt;&lt; f;</code> works for a <code>Fraction</code> object. The function must handle the following formatting:</p>
-<ul>
-<li>If the numerator is <span class="math inline">\(0\)</span>, print <code>0</code>.</li>
-<li>If the denominator is <span class="math inline">\(1\)</span>, print only the numerator (e.g., <span class="math inline">\(42/1\)</span> prints as <code>42</code>).</li>
-<li>If <span class="math inline">\(f &gt; 0\)</span>, print the fraction in the form <code>a/b</code> (e.g., <span class="math inline">\(2/3\)</span> for both <span class="math inline">\(2/3\)</span> and <span class="math inline">\(-2/-3\)</span>).</li>
-<li>If <span class="math inline">\(f &lt; 0\)</span>, print the negative sign in front of the positive fraction (e.g., <span class="math inline">\(2/-3\)</span> prints as <code>-2/3</code>).</li>
-</ul></li>
-<li><p>Overload the operator <code>+</code> (plus) and operator <code>*</code> (multiplication) so that the following statements work for two <code>Fraction</code> objects <code>a</code> and <code>b</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> a <span class="op">+</span> b<span class="op">;</span> <span class="co">// Equivalent to std::cout &lt;&lt; a.add(b)</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">std::</span>cout <span class="op">&lt;&lt;</span> a <span class="op">*</span> b<span class="op">;</span> <span class="co">// Equivalent to std::cout &lt;&lt; a.multiply_by(b)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>Overload the assignment operator <code>=</code> for a <code>Fraction</code> object so that the following works:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode cpp code-with-copy"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> a <span class="op">+</span> b<span class="op">;</span>  <span class="co">// a, b, and c are all Fraction objects</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>Write a member function <code>reduce</code> that reduces a fraction to its irreducible form using <code>std::__gcd(int, int)</code> from <code>#include &lt;bits/stdc++.h&gt;</code>. For example, the GCD of <span class="math inline">\(100\)</span> and <span class="math inline">\(40\)</span> is <span class="math inline">\(20\)</span>, so the fraction should be reduced accordingly.</p></li>
-<li><p>Finally, write a <code>main</code> function to perform the following:</p>
-<ul>
-<li>Create a <code>std::vector</code> containing five <code>Fraction</code> objects with the values: <span class="math display">\[f_1 = \frac{1}{2}, \quad f_2 = \frac{1}{3}, \quad f_3 = \frac{1}{4}, \quad f_4 = \frac{1}{5}, \quad f_5 = \frac{1}{6}\]</span> using a <code>for</code>-loop and <code>push_back()</code>.</li>
-<li>Compute the product using a <code>for</code>-loop: <span class="math display">\[p = \prod_{i=1}^{5} f_{i} = f_1 \cdot f_2 \cdot f_3 \cdot f_4 \cdot f_5 = \frac{1}{2 \cdot 3 \cdot 4 \cdot 5 \cdot 6}\]</span></li>
-<li>Print the resulting product to the console.</li>
-</ul></li>
-</ol>
+<section id="how-users-access-an-hpc-cluster" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> How Users Access an HPC Cluster</h1>
+<p>Users typically access an HPC cluster remotely using <strong>Secure Shell (SSH)</strong>. After logging in, they interact with the system through a terminal to manage files, load software modules, and submit jobs to the scheduler.</p>
+<hr>
 </section>
+<section id="basic-linux-and-terminal-skills-for-hpc" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Basic Linux and Terminal Skills for HPC</h1>
+<p>Most HPC systems run on Linux and are operated through the command line (Command Prompt for Windows, Terminal for Mac and Linux). Therefore, basic familiarity with Linux commands is essential.</p>
+<p>Key skills include:</p>
+<p><strong>File system navigation</strong><br>
+Moving between directories and listing files.<br>
+Examples: <code>pwd</code>, <code>ls</code>, <code>cd</code></p>
+<p><strong>File management</strong><br>
+Creating, copying, moving, and deleting files.<br>
+Examples: <code>mkdir</code>, <code>cp</code>, <code>mv</code>, <code>rm</code>, <code>sftp</code></p>
+<p><strong>Viewing file contents</strong><br>
+Inspecting files directly from the terminal.<br>
+Examples: <code>cat</code>, <code>less</code>, <code>head</code>, <code>tail</code></p>
+<p><strong>Running programs</strong><br>
+Executing scripts or submitting jobs to the scheduler.</p>
+<p>Understanding these commands provides the foundation for working effectively on an HPC system.</p>
 </section>
 
 </main>

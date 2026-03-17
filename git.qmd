@@ -116,6 +116,8 @@ We will go in detail of how to get connected through `SSH` protocol. It is consi
 
 SSH authenticates by using the so-called "**public–private key cryptography**", which generates a "`private key`", only kept on your machine, and a "`public key`", kept on both your machine and on you GitHub account. Followings are steps to setup the SSH authentication.
 
+**This tutorial will adhere to SSH connection**.
+
 #### Step-by-step setup for SSH authentication:
 
 Step 1: Generate the key: in your terminal type, and fill it with your email which you used to register your GitHub account
@@ -178,12 +180,73 @@ So, GitHub knows that this connection (or loosely speaking, this machine) is try
 
 When you try to clone a repository via SSH protocol, GitHub will check whether your account has permission for cloning this repository.
 
-There are actually many complicated technical features behind the scene, but for a benign understanding, it can be thought of `private key` as a key and the `public key` as a lock. Your machine knows the key and the lock, while your GitHub's account holds the lock. By connecting to your GitHub account through SSH, you are asking GitHub to find the account with this "lock" and then use the "key" to open that "lock". If someone else can have your `public key` in their hand, and try to ask GitHub to connect themselves to your account, then they cannot as their machine does have the "key" - `private key` - to open the "lock" that GitHub show them.
+There are actually many complicated technical features behind the scene, but for a benign understanding, it can be thought of `private key` as a "key" and the `public key` as a "lock". Your machine knows both the key and the lock, while your GitHub's account holds the lock. By connecting to your GitHub account through SSH, you are asking GitHub to find the account associated with this "lock" and then use the "key" to open that "lock". If someone else can have your `public key` in their hand, and try to ask GitHub to connect themselves to your account using that `public key`, then they cannot as their machine does have the "key" - `private key` - to open the "lock".
 
+# Get started
+This section aims at getting you acquainted with Git through a simple workflow where you will work with your own GitHub's repo. Now, let's put into practise what we have gone throught above.
 
+**Start from `cloning` a remote repository**
 
-# Get acquainted with Git through a simple workflow
+First, we need to clone our repo which we already created from GitHub (provide your "passphrase" if it asks you to do so):
 
+![](git_files/figures/get_started_1.png){width="50%"}
 
+```bash
+    git clone git@github.com:huyle-ce/uog_git_tutorial.git
+```
 
+Go to your terminal , type `ls` to test whether it has done fine!
 
+![](git_files/figures/get_started_2.png){width="50%"}
+
+Now, we can `cd` to the repo and then type `code .` to open VS Code in this repo. It will lead you to a fresh and blank VS Code window. Hereon, you can perform tasks in exactly the same as you normally do with VS Code. Let's create some folders and files so that we can have things to do examples.
+
+![](git_files/figures/get_started_3.png){width="50%"}
+
+You can see the newly created folders and files appear to be green and with letter "U" on the right. This means those files are on `Working Directory` and are not tracked by `Git`, so every change and modification are basically saved on local system. Now, let us do the basic workflow step-by-step.
+
+1. Add the files to `Staging Area`. You can add specific files or all the files.
+
+```bash
+    # Add specific files
+    git add a_cpp_file.cpp a_python_file.py
+    
+    # Or, add all the files
+    git add .
+```
+
+The statuses of the added files are now changed into "A"
+
+![](git_files/figures/get_started_4.png){width="50%"}
+
+A handy command of a git user is `git status` which is to show the status of the current file. The following picture show the status of the files in which `a_cpp_file.cpp a_python_file.py` were added while the others were not.
+
+![](git_files/figures/get_started_5.png){width="50%"}
+
+Now, we want to do it for all the files.
+
+2. Next, we need to `commit` the added files to the so-called `Local Repository`. By doing this, Git takes everything currently in the staging area and permanently records it as a new version in the history. You can think of the `commit` action as the `save` action that you normally do when using your computer.
+
+```bash
+    git commit -m "First commit"
+```
+Then you can see all the files appearing in your explorer become white and some information is provided in your terminal.
+
+![](git_files/figures/get_started_6.png){width="80%"}
+
+3. Up to this point, your changes are on your `main branch` and are just recorded by Git on your `Local Repository`, nothing has touched your GitHub repo. What we need to to next is `push` it to your remote repo which is essentially your GitHub's repo.
+
+```bash
+    git push
+```
+
+What Git actually does is that it push the `main` branch to the `origin` of your remote repo. Recall that the first step is cloning the remote repo to your local machine. Through this process, a "channel" between the `main` and `origin` is established.
+We will go through branches in Git in detail later.
+
+![](git_files/figures/get_started_7.png){width="70%"}
+
+Now, you can revisit your GitHub repo on your web browser, refesh the page and you will see all the files were streamed to there.
+
+![](git_files/figures/get_started_8.png){width="70%"}
+
+**Start from local repository**

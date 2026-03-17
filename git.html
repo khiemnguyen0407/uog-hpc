@@ -91,7 +91,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#create-a-githubs-repository" id="toc-create-a-githubs-repository" class="nav-link" data-scroll-target="#create-a-githubs-repository">Create a GitHub’s repository</a></li>
   <li><a href="#connect-to-a-githubs-repository" id="toc-connect-to-a-githubs-repository" class="nav-link" data-scroll-target="#connect-to-a-githubs-repository">Connect to a GitHub’s repository</a></li>
   </ul></li>
-  <li><a href="#get-acquainted-with-git-through-a-simple-workflow" id="toc-get-acquainted-with-git-through-a-simple-workflow" class="nav-link" data-scroll-target="#get-acquainted-with-git-through-a-simple-workflow">Get acquainted with Git through a simple workflow</a></li>
+  <li><a href="#get-started" id="toc-get-started" class="nav-link" data-scroll-target="#get-started">Get started</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="git.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
@@ -185,6 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Preferred for automated systems (HPC, CI, etc.)</li>
 </ul>
 <p>SSH authenticates by using the so-called “<strong>public–private key cryptography</strong>”, which generates a “<code>private key</code>”, only kept on your machine, and a “<code>public key</code>”, kept on both your machine and on you GitHub account. Followings are steps to setup the SSH authentication.</p>
+<p><strong>This tutorial will adhere to SSH connection</strong>.</p>
 <section id="step-by-step-setup-for-ssh-authentication" class="level4">
 <h4 class="anchored" data-anchor-id="step-by-step-setup-for-ssh-authentication">Step-by-step setup for SSH authentication:</h4>
 <p>Step 1: Generate the key: in your terminal type, and fill it with your email which you used to register your GitHub account</p>
@@ -214,13 +215,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>When doing <code>git clone git@github.com:user/repo.git</code>, the SSH protocol runs to establish a SSH channel to the GitHub’s directory. Next, the SSH sends the <code>public key</code> to GitHub, and then GitHub compares this particular key with the <code>stored public keys</code>.</p>
 <p>So, GitHub knows that this connection (or loosely speaking, this machine) is trying to authenticates as <em>account X</em> which holds the matched <code>public key</code>. Through the SSH channel, the <code>public key</code> of the account X is checked with the <code>private key</code> of the machine. If they match, the account is authenticated to be authorized by the machine, and so get connected.</p>
 <p>When you try to clone a repository via SSH protocol, GitHub will check whether your account has permission for cloning this repository.</p>
-<p>There are actually many complicated technical features behind the scene, but for a benign understanding, It can be thought of <code>private key</code> as a key and the <code>public key</code> as a lock. Your machine knows the key and the lock, while your GitHub’s account holds the lock. By connecting to your GitHub account through SSH, you are asking GitHub to find the account with this “lock” and then use the “key” to open that “lock”. If someone else can have your <code>public key</code> in their hand, and try to ask GitHub to connect themselves to your account, then they cannot as their machine does have the “key” - <code>private key</code> - to open the “lock” that GitHub show them.</p>
+<p>There are actually many complicated technical features behind the scene, but for a benign understanding, it can be thought of <code>private key</code> as a “key” and the <code>public key</code> as a “lock”. Your machine knows both the key and the lock, while your GitHub’s account holds the lock. By connecting to your GitHub account through SSH, you are asking GitHub to find the account associated with this “lock” and then use the “key” to open that “lock”. If someone else can have your <code>public key</code> in their hand, and try to ask GitHub to connect themselves to your account using that <code>public key</code>, then they cannot as their machine does have the “key” - <code>private key</code> - to open the “lock”.</p>
 </section>
 </section>
 </section>
 </section>
-<section id="get-acquainted-with-git-through-a-simple-workflow" class="level1">
-<h1>Get acquainted with Git through a simple workflow</h1>
+<section id="get-started" class="level1">
+<h1>Get started</h1>
+<p>This section aims at getting you acquainted with Git through a simple workflow where you will work with your own GitHub’s repo. Now, let’s put into practise what we have gone throught above.</p>
+<p><strong>Start from <code>cloning</code> a remote repository</strong></p>
+<p>First, we need to clone our repo which we already created from GitHub (provide your “passphrase” if it asks you to do so):</p>
+<p><img src="git_files/figures/get_started_1.png" class="img-fluid" style="width:50.0%"></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">git</span> clone git@github.com:huyle-ce/uog_git_tutorial.git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Go to your terminal , type <code>ls</code> to test whether it has done fine!</p>
+<p><img src="git_files/figures/get_started_2.png" class="img-fluid" style="width:50.0%"></p>
+<p>Now, we can <code>cd</code> to the repo and then type <code>code .</code> to open VS Code in this repo. It will lead you to a fresh and blank VS Code window. Hereon, you can perform tasks in exactly the same as you normally do with VS Code. Let’s create some folders and files so that we can have things to do examples.</p>
+<p><img src="git_files/figures/get_started_3.png" class="img-fluid" style="width:50.0%"></p>
+<p>You can see the newly created folders and files appear to be green and with letter “U” on the right. This means those files are on <code>Working Directory</code> and are not tracked by <code>Git</code>, so every change and modification are basically saved on local system. Now, let us do the basic workflow step-by-step.</p>
+<ol type="1">
+<li>Add the files to <code>Staging Area</code>. You can add specific files or all the files.</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add specific files</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">git</span> add a_cpp_file.cpp a_python_file.py</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Or, add all the files</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">git</span> add .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The statuses of the added files are now changed into “A”</p>
+<p><img src="git_files/figures/get_started_4.png" class="img-fluid" style="width:50.0%"></p>
+<p>A handy command of a git user is <code>git status</code> which is to show the status of the current file. The following picture show the status of the files in which <code>a_cpp_file.cpp a_python_file.py</code> were added while the others were not.</p>
+<p><img src="git_files/figures/get_started_5.png" class="img-fluid" style="width:50.0%"></p>
+<p>Now, we want to do it for all the files.</p>
+<ol start="2" type="1">
+<li>Next, we need to <code>commit</code> the added files to the so-called <code>Local Repository</code>. By doing this, Git takes everything currently in the staging area and permanently records it as a new version in the history. You can think of the <code>commit</code> action as the <code>save</code> action that you normally do when using your computer.</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"First commit"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then you can see all the files appearing in your explorer become white and some information is provided in your terminal.</p>
+<p><img src="git_files/figures/get_started_6.png" class="img-fluid" style="width:80.0%"></p>
+<ol start="3" type="1">
+<li>Up to this point, your changes are on your <code>main branch</code> and are just recorded by Git on your <code>Local Repository</code>, nothing has touched your GitHub repo. What we need to to next is <code>push</code> it to your remote repo which is essentially your GitHub’s repo.</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">git</span> push</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>What Git actually does is that it push the <code>main</code> branch to the <code>origin</code> of your remote repo. Recall that the first step is cloning the remote repo to your local machine. Through this process, a “channel” between the <code>main</code> and <code>origin</code> is established. We will go through branches in Git in detail later.</p>
+<p><img src="git_files/figures/get_started_7.png" class="img-fluid" style="width:70.0%"></p>
+<p>Now, you can revisit your GitHub repo on your web browser, refesh the page and you will see all the files were streamed to there.</p>
+<p><img src="git_files/figures/get_started_8.png" class="img-fluid" style="width:70.0%"></p>
+<p><strong>Start from local repository</strong></p>
 </section>
 
 </main>
