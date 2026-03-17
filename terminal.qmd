@@ -85,7 +85,7 @@ To connect to the HPC cluster, open a terminal application. This can be:
 
 Then run the following command:
 
-```
+```{bash}
 ssh <id>@cognition.cose.gla.ac.uk
 ```
 
@@ -120,7 +120,7 @@ The command `pwd` stands for **print working directory**.  It tells you where yo
 
 Example:
 
-```
+```{bash}
 pwd
 ```
 
@@ -137,7 +137,7 @@ It is good practice to run `pwd` when you are unsure where you are in the file s
 The `ls` command shows the contents of the current directory.
 
 Example:
-```
+```{bash}
 ls
 ```
 
@@ -148,7 +148,7 @@ Example output:
 Other significant command is to add -l for showing additional informations.
 
 Example:
-```
+```{bash}
 ls -l
 ```
 
@@ -169,7 +169,7 @@ This shows additional information such as:
 The `cd` command allows you to move between directories.
 
 Example:
-```
+```{bash}
 cd Test
 ```
 Example output:
@@ -192,7 +192,7 @@ The most commonly used commands are:
 
 The `mkdir` command creates a new folder. The `nano` command create a new text file for our tests.
 
-```
+```{bash}
 mkdir newFolder
 nano text1.txt
 ```
@@ -200,7 +200,7 @@ nano text1.txt
 When using the nano command, you will encounter movement to different UI, dont worry and for now, just exit the UI.
 
 You can confirm the new folder was created by 
-```
+```{bash}
 ls
 ```
 
@@ -216,7 +216,7 @@ The `cp` command copies a file from one location to another.
 
 Example:
 
-```
+```{bash}
 cp text1.txt text2.txt
 ```
 
@@ -230,7 +230,7 @@ You can also copy a file into a directory.
 
 Example:
 
-```
+```{bash}
 cp text1.txt newFolder/
 ```
 
@@ -246,7 +246,7 @@ The `mv` command moves files between directories or renames them.
 
 Rename a file:
 
-```
+```{bash}
 mv text1.txt newfile.txt
 ```
 
@@ -258,7 +258,7 @@ This renames `text1.txt` to `newfile.txt`
 
 Move a file to directory:
 
-```
+```{bash}
 mv text2.txt newFolder/
 ```
 
@@ -275,7 +275,7 @@ The `rm` command removes files.
 
 Example:
 
-```
+```{bash}
 rm text1.txt
 ```
 
@@ -288,7 +288,7 @@ This removes `text2.txt`.
 To remove a folder, add -r to the given command.
 
 Example:
-```
+```{bash}
 mkdir removable-folder
 ls
 rm -r removable-folder
@@ -300,13 +300,13 @@ Example output:
 
 This removes `removable-folder` and all corresponding files inside.
 
-⚠ **Important:**  
+**Important:**  
 Files deleted with `rm` are permanently removed.  
 There is **no recycle bin or undo option** on most HPC systems.
 
 Always confirm your location before deleting files:
 
-```
+```{bash}
 pwd
 ```
 
@@ -315,13 +315,13 @@ pwd
 Files can be transferred between your local computer and the HPC cluster using `sftp`.
 
 Start an SFTP session:
-```
+```{bash}
 sftp <id>@cognition.cose.gla.ac.uk
 ```
 
 Once connected, you can move your files:
 
-```
+```{bash}
 put <file directory>
 ```
 
@@ -329,7 +329,7 @@ As an example, we want to put the helloworld.ipnyb in our training-files to the 
 
 Example code:
 
-```
+```{bash}
 put <file directory>/hello-world.ipynb 
 ``` 
 
@@ -342,7 +342,7 @@ Or download your file from HPC:
 
 As an example, we want to download the same file into our local computer.
 
-```
+```{bash}
 get <file/folder in hpc> <file/folder directory> 
 ```
 
@@ -354,7 +354,7 @@ Example output:
 Here are simple practice example for familiarise yourself with Linux system.
 
 Example code:
-```
+```{bash}
 mkdir testfolder
 nano text1.txt
 ls
@@ -375,7 +375,7 @@ These commands will help you practise creating directories, copying files, movin
 
 In order to use this training, we upload hpc-text.txt that is shared in this github using SFTP by using:
 
-```
+```{bash}
 sftp <id>@cognition.cose.gla.ac.uk
 put <directory>/hpc-text.txt
 ```
@@ -388,7 +388,7 @@ We can use echo to create text files,
 
 Example:
 
-```
+```{bash}
 echo "This is a test"
 ```
 
@@ -402,7 +402,7 @@ Now we are saving the words we put in echo as a txt file.
 
 Example:
 
-```
+```{bash}
 echo "This is a test" > text1.txt
 echo "This is a second test" > text2.txt
 ```
@@ -414,7 +414,7 @@ Example output:
 We also can link both files together as one, this is called concatenate. The first two combined will concatenate the file together and the last > will act as saving to a new file.
 
 Example:
-```
+```{bash}
 cat text_1.txt text_2.txt > cat.txt
 ```
 
@@ -426,7 +426,7 @@ Example output:
 
 Using nano is much more straightforward as we can directly edit the file in the nano ecosystem and we can do various things on this environment too. We can directly edit, modify and save the files using this software.
 
-```
+```{bash}
 nano test_1.txt
 ```
 
@@ -449,7 +449,7 @@ Common commands include:
 
 The `cat` command prints the full contents of a file directly in the terminal.
 
-```
+```{bash}
 cat hpc-text.txt
 ```
 
@@ -474,7 +474,7 @@ Inside `less`, you can:
 This is the preferred command for viewing **large files**.
 
 Example:
-```
+```{bash}
 less hpc-text.txt
 ```
 
@@ -488,7 +488,7 @@ Example output:
 The `head` command shows the **first 10 lines** of a file.
 
 Example:
-```
+```{bash}
 head hpc-text.txt
 ```
 
@@ -498,7 +498,7 @@ Example output:
 
 You can specify the number of lines:
 
-```
+```{bash}
 head -n 5 file.txt
 ```
 
@@ -507,7 +507,7 @@ head -n 5 file.txt
 The `tail` command shows the **last 10 lines** of a file.
 
 Example:
-```
+```{bash}
 tail hpc-text.txt
 ```
 
@@ -517,7 +517,7 @@ Example output:
 
 You can specify the number of lines:
 
-```
+```{bash}
 tail -n 5 file.txt
 ```
 
@@ -525,7 +525,7 @@ These commands allow you to quickly inspect files without opening a text editor.
 
 One key example is to take the last data in the log file, which is coming quite handy in some analysis:
 
-```
+```{bash}
 tail -f output.log
 ```
 
@@ -534,7 +534,7 @@ tail -f output.log
 ### Practice Exercise
 
 Try the following commands:
-```
+```{bash}
 cat hpc-text.txt
 less hpc-text.txt
 head hpc-text.txt
@@ -557,7 +557,7 @@ In general:
 First, we create a simple script using nano. The file should directly printing "Hello world!" as a simple example.
 
 Example:
-```
+```{bash}
 nano testrun.py
 ```
 
@@ -569,7 +569,7 @@ In nano user interface, we use simple command to print "Hello world!".
 
 Example:
 
-```
+```{bash}
 print("Hello world!")
 ```
 
@@ -581,7 +581,7 @@ Then, we can check the hpc system if they have a python installed and we can use
 
 Example:
 
-```
+```{bash}
 module avail
 ```
 
@@ -593,7 +593,7 @@ In the cognition, we have miniforge so we can load the miniforge. Copy the file 
 
 Example:
 
-```
+```{bash}
 module load miniforge3/25.3.0-3/none-none/a-4lhn6xy 
 ```
 
@@ -605,7 +605,7 @@ From here on, we can make conda environment as usual, for simplicity, we will us
 
 Example:
 
-```
+```{bash}
 conda activate base
 ```
 
@@ -617,7 +617,7 @@ From here, we can run the python3 file as usual.
 
 Example:
 
-```
+```{bash}
 python testrun.py
 ```
 
@@ -629,7 +629,7 @@ However, when trying to run the python notebook (ipynb files), we need to conver
 
 Example:
 
-```
+```{bash}
 jupyter nbconvert --to python hello-world.ipynb
 python hello-world.py
 ```
