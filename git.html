@@ -85,11 +85,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#foreword" id="toc-foreword" class="nav-link active" data-scroll-target="#foreword">Foreword</a></li>
   <li><a href="#installation-of-git" id="toc-installation-of-git" class="nav-link" data-scroll-target="#installation-of-git">Installation of <code>Git</code></a></li>
-  <li><a href="#connect-your-local-machine-with-github" id="toc-connect-your-local-machine-with-github" class="nav-link" data-scroll-target="#connect-your-local-machine-with-github">Connect your local machine with GitHub</a>
+  <li><a href="#connect-your-local-machine-to-a-githubs-repository" id="toc-connect-your-local-machine-to-a-githubs-repository" class="nav-link" data-scroll-target="#connect-your-local-machine-to-a-githubs-repository">Connect your local machine to a GitHub’s repository</a>
   <ul class="collapse">
   <li><a href="#introduction-to-terminal" id="toc-introduction-to-terminal" class="nav-link" data-scroll-target="#introduction-to-terminal">Introduction to <code>terminal</code></a></li>
   <li><a href="#create-a-githubs-repository" id="toc-create-a-githubs-repository" class="nav-link" data-scroll-target="#create-a-githubs-repository">Create a GitHub’s repository</a></li>
-  <li><a href="#connect-to-a-github-repository" id="toc-connect-to-a-github-repository" class="nav-link" data-scroll-target="#connect-to-a-github-repository">Connect to a GitHub’ repository</a></li>
+  <li><a href="#connect-to-a-githubs-repository" id="toc-connect-to-a-githubs-repository" class="nav-link" data-scroll-target="#connect-to-a-githubs-repository">Connect to a GitHub’s repository</a></li>
   </ul></li>
   <li><a href="#get-acquainted-with-git-through-a-simple-workflow" id="toc-get-acquainted-with-git-through-a-simple-workflow" class="nav-link" data-scroll-target="#get-acquainted-with-git-through-a-simple-workflow">Get acquainted with Git through a simple workflow</a></li>
   </ul>
@@ -131,8 +131,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Installation of <code>Git</code></h1>
 <p>Git goes with WSL by default, so if you are using WSL or Linux operating system, you do not have to do the installation. If you are working with Windows or Mac, you need to install Git. The instruction for installation from Git’s official website is straightforward, so for this point readers are directed to the website, <a href="https://git-scm.com/install/">here</a>, to install Git.</p>
 </section>
-<section id="connect-your-local-machine-with-github" class="level1">
-<h1>Connect your local machine with GitHub</h1>
+<section id="connect-your-local-machine-to-a-githubs-repository" class="level1">
+<h1>Connect your local machine to a GitHub’s repository</h1>
 <section id="introduction-to-terminal" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-to-terminal">Introduction to <code>terminal</code></h2>
 <p>Using Git, you will mostly do the operations via a <code>terminal</code>. So, it is worth to give a brief description of the term <code>terminal</code>. For ones who are already familiar with <code>terminal</code> can skip this part.</p>
@@ -159,13 +159,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Finally, configure your repo by filling the boxes, with the important thing being “Choose visibility” of “Public/Private”. After that, click “Create repository” to create the repo</p>
 <p><img src="git_files/figures/repository_3.png" class="img-fluid" style="width:50.0%"></p>
 </section>
-<section id="connect-to-a-github-repository" class="level2">
-<h2 class="anchored" data-anchor-id="connect-to-a-github-repository">Connect to a GitHub’ repository</h2>
-<section id="http" class="level3">
-<h3 class="anchored" data-anchor-id="http">HTTP</h3>
+<section id="connect-to-a-githubs-repository" class="level2">
+<h2 class="anchored" data-anchor-id="connect-to-a-githubs-repository">Connect to a GitHub’s repository</h2>
+<p>Basically, there are two cases to get connected to a GitHub’s repo, including connecting to your own GitHub repo and connect to a repo that you are invited by your collaborator. Both cases are done in a very similar way, through either <code>HTTPS</code> or <code>SSH</code> protocol.</p>
+<p><code>HTTPS</code> and <code>SSH</code> are protocols used by Git to communicate with remote repositories (e.g., GitHub), with the difference mainly lying in authentication, security mechanism, and workflow convenience.</p>
+<p>Either you are connecting to your own repo or to the repo you were invited, the first thing to do is go to that repo to get the directory URL. Depending on which method you prefer, you will select <code>HTTPS</code> or <code>SSH</code> to get the link. At this point, we work through <code>HTTPS</code> and <code>SSH</code>, while leave <code>GitHub CLI</code> in later topic.</p>
+<p><img src="git_files/figures/clone_1.png" class="img-fluid" style="width:50.0%"></p>
+<section id="https---hypertext-transfer-protocol-secure-good-for-quick-or-temporary-access" class="level3">
+<h3 class="anchored" data-anchor-id="https---hypertext-transfer-protocol-secure-good-for-quick-or-temporary-access">HTTPS - HyperText Transfer Protocol Secure (good for quick or temporary access)</h3>
+<p>By doing this way, when GitHub needs authentication, you will have to use “<strong>Personal Access Token (PAT)</strong>” (<em>this setup is left for you to find how to do yourself</em>).</p>
+<p>Using the copied <code>HTTPS</code> URL, you can now <code>clone</code> the repo to your local directory where your want to put your project in your local machine. In you terminal, type</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">git</span> clone <span class="op">&lt;</span>your copied HTTPS URL<span class="op">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For example,</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">git</span> clone https://github.com/khiemnguyen0407/uog-hpc.git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To test the job, in your terminal, at the folder you keep the cloned repository, type <code>ls</code> to see whether the repo was sucessfully cloned to you local repo. See the following example of my case, first I go to my <code>projects</code> folder where I put the cloned repo of <code>uog-hpc</code>, and then <code>ls</code>.</p>
+<p><img src="git_files/figures/clone_2.png" class="img-fluid" style="width:80.0%"></p>
 </section>
-<section id="ssh" class="level3">
-<h3 class="anchored" data-anchor-id="ssh">SSH</h3>
+<section id="ssh---secure-shell-good-practice-and-recommended" class="level3">
+<h3 class="anchored" data-anchor-id="ssh---secure-shell-good-practice-and-recommended">SSH - Secure Shell (good practice and recommended)</h3>
+<p>We will go in detail of how to get connected through <code>SSH</code> protocol. It is considered as a good practice and is recommended for a long-term use of GitHub. Some of the advantages are:</p>
+<ul>
+<li>No repeated login</li>
+<li>Very convenient for frequent Git use</li>
+<li>More natural workflow for developers</li>
+<li>Preferred for automated systems (HPC, CI, etc.)</li>
+</ul>
+<p>SSH authenticates by using the so-called “<strong>public–private key cryptography</strong>”, which generates a “<code>private key</code>”, only kept on your machine, and a “<code>public key</code>”, kept on both your machine and on you GitHub account. Followings are steps to setup the SSH authentication.</p>
+<section id="step-by-step-setup-for-ssh-authentication" class="level4">
+<h4 class="anchored" data-anchor-id="step-by-step-setup-for-ssh-authentication">Step-by-step setup for SSH authentication:</h4>
+<p>Step 1: Generate the key: in your terminal type, and fill it with your email which you used to register your GitHub account</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ssh-keygen</span> <span class="at">-t</span> ed25519 <span class="at">-C</span> <span class="st">"your_email@example.com"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For example, my case is</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ssh-keygen</span> <span class="at">-t</span> ed25519 <span class="at">-C</span> <span class="st">"huy.lequang.ce@gmail.com"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then, press Enter to choose the default location for storing the key (you can choose your own custom location, but we should do so unless you do have a purpose on this)</p>
+<p>Next, enter your <code>passphrase</code> (it is like a password) to protect your <code>private key</code>. It is optional, but it provides one more layer to protect your <code>private key</code> from being exposed to someone else. (Imagine some one use your machine and open the file to have your <code>private key</code>)</p>
+<p>Step 2: Start the SSH agent: in your terminal type</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>    <span class="bu">eval</span> <span class="st">"</span><span class="va">$(</span><span class="fu">ssh-agent</span> <span class="at">-s</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ssh-add</span> ~/.ssh/id_ed25519</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Step 3: Copy the <code>public key</code> in order to add to your GitHub account. In your terminal, type</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span> ~/.ssh/id_ed25519.pub</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>, and then copy the whole line.</p>
+<p>Step 4: Add the key to your GitHub account: go to your GitHub settings (click on your account icon) –&gt; go to “SSH and GPG keys” –&gt; click “New SSH key” to add the key by pasting the copied content at Step 3. Note that, GitHub allows <strong>multiple SSH keys per account</strong>, so if you have other authentications (other machine), you can leave them untouched, and add the new SSH key.</p>
+<p>Step 5: Test the authentication: in your terminal, type</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ssh</span> <span class="at">-T</span> git@github.com</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>, then you should see something like:</p>
+<pre><code>Hi huyle-ce! You've successfully authenticated, but GitHub does not provide shell access.</code></pre>
+<p>Step 6: now, you can clone a repository that you have permission to clone, which can be either an invited or your own one. First, go to GitHub and copy the SSH address from the repository you want to clone, then clone it by command line:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:path/repository.git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now, you can work with your local and GitHub repositories by pulling, pushing, and so on.</p>
+</section>
+<section id="understanding-about-publicprivate-key-cryptography" class="level4">
+<h4 class="anchored" data-anchor-id="understanding-about-publicprivate-key-cryptography">Understanding about <strong>public–private key cryptography</strong>:</h4>
+<p>After going through the procedure for setting up the SSH authentication above, it is worth to have a sense on how it works.</p>
+<p>When doing <code>git clone git@github.com:user/repo.git</code>, the SSH protocol runs to establish a SSH channel to the GitHub’s directory. Next, the SSH sends the <code>public key</code> to GitHub, and then GitHub compares this particular key with the <code>stored public keys</code>.</p>
+<p>So, GitHub knows that this connection (or loosely speaking, this machine) is trying to authenticates as <em>account X</em> which holds the matched <code>public key</code>. Through the SSH channel, the <code>public key</code> of the account X is checked with the <code>private key</code> of the machine. If they match, the account is authenticated to be authorized by the machine, and so get connected.</p>
+<p>When you try to clone a repository via SSH protocol, GitHub will check whether your account has permission for cloning this repository.</p>
+<p>There are actually many complicated technical features behind the scene, but for a benign understanding, It can be thought of <code>private key</code> as a key and the <code>public key</code> as a lock. Your machine knows the key and the lock, while your GitHub’s account holds the lock. By connecting to your GitHub account through SSH, you are asking GitHub to find the account with this “lock” and then use the “key” to open that “lock”. If someone else can have your <code>public key</code> in their hand, and try to ask GitHub to connect themselves to your account, then they cannot as their machine does have the “key” - <code>private key</code> - to open the “lock” that GitHub show them.</p>
+</section>
 </section>
 </section>
 </section>
