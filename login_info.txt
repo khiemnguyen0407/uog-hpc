@@ -1,0 +1,7 @@
+ssh hpc-training@rankine.gla.ac.uk
+Password: nobodyknows007
+
+
+ssh hpc-training@130.209.177.126
+Password: nobodyknows007
+
