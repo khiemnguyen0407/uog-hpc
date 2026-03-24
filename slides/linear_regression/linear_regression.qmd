@@ -1,0 +1,107 @@
+---
+title: "Multiple Linear Regression"
+# subtitle: "More on classes"
+author: |
+    Khiem Nguyen 
+    <br>Lecturer in Multiscale Materials
+    <br><khiem.nguyen@glasgow.ac.uk>
+author-meta: "Lecturer in Multiscale Materials"
+format: 
+    revealjs:
+        # embed-resources: true
+        theme: simple   # other themes: beige, blood, dark, dracula, league, moon, night, serif, simple, sky, solarized
+        mouse-wheel: true
+        highlight-style: github
+        slide-number: true
+        title-slide-style: pandoc
+        echo: true
+        code-overflow: wrap
+        code-line-numbers: true
+        code-block-bg: false          # <-- remove white background in code blocks
+        # code-block-border-left: false # optional: remove left border
+        # highlight-style: monokai      # good for dark images
+        toc: true
+        toc-depth: 1
+        toc-title: Presentation Outline
+        chalkboard: true
+        css: simple.css
+---
+
+## From Simple to Multiple
+
+In Multiple Linear Regression, we predict a target $y$ based on $d$ different features $(x_1, x_2, \dots, x_d)$.
+
+The prediction for a single observation is:
+$$\hat{y} = w_1 x_1 + w_2 x_2 + \dots + w_d x_d + b$$
+
+We can simplify this using the **dot product**:
+$$\hat{y} = \mathbf{w}^\top \mathbf{x} + b$$
+
+Where $\mathbf{w}$ and $\mathbf{x}$ are vectors in $\mathbb{R}^d$.
+
+---
+
+## The Matrix Formulation
+
+For a dataset with $n$ observations, we stack the inputs into a matrix $\mathbf{X}$ of shape $(n \times d)$.
+
+$$\hat{\mathbf{y}} = \mathbf{X}\mathbf{w} + b\mathbf{1}$$
+
+- $\mathbf{X} \in \mathbb{R}^{n \times d}$: Feature Matrix
+- $\mathbf{w} \in \mathbb{R}^{d}$: Weight Vector
+- $\hat{\mathbf{y}} \in \mathbb{R}^{n}$: Prediction Vector
+- $b$: Scalar Bias
+
+---
+
+## Loss Function (MSE)
+
+The objective is to minimize the Mean Squared Error, expressed in vector notation:
+
+$$\mathcal{L}(\mathbf{w}, b) = \frac{1}{n} \|\hat{\mathbf{y}} - \mathbf{y}\|^2_2$$
+
+Expanding this:
+$$\mathcal{L}(\mathbf{w}, b) = \frac{1}{n} \sum_{i=1}^{n} (\mathbf{w}^\top \mathbf{x}^{(i)} + b - y^{(i)})^2$$
+
+---
+
+## The Gradient Vector
+
+Because $\mathbf{w}$ is a vector, its gradient $\nabla_{\mathbf{w}} \mathcal{L}$ is also a vector of partial derivatives:
+
+$$\nabla_{\mathbf{w}} \mathcal{L} = \begin{bmatrix} \frac{\partial \mathcal{L}}{\partial w_1} \\ \vdots \\ \frac{\partial \mathcal{L}}{\partial w_d} \end{bmatrix}$$
+
+Applying the chain rule to the matrix form:
+$$\nabla_{\mathbf{w}} \mathcal{L} = \frac{2}{n} \mathbf{X}^\top (\mathbf{X}\mathbf{w} + b - \mathbf{y})$$
+
+---
+
+## Gradient for Bias
+
+The bias $b$ is a scalar, so its gradient is the average sum of all individual errors:
+
+$$\frac{\partial \mathcal{L}}{\partial b} = \frac{2}{n} \sum_{i=1}^{n} (\hat{y}^{(i)} - y^{(i)})$$
+
+In vectorized notation:
+$$\frac{\partial \mathcal{L}}{\partial b} = \frac{2}{n} \mathbf{1}^\top (\hat{\mathbf{y}} - \mathbf{y})$$
+
+---
+
+## Multi-dimensional Update Rule
+
+We update all weights simultaneously using the gradient vector and a learning rate $\alpha$:
+
+$$\mathbf{w}_{\text{new}} = \mathbf{w}_{\text{old}} - \alpha \nabla_{\mathbf{w}} \mathcal{L}$$
+$$b_{\text{new}} = b_{\text{old}} - \alpha \frac{\partial \mathcal{L}}{\partial b}$$
+
+This iterative process allows the model to "learn" the optimal hyperplane.
+
+---
+
+## Geometric Interpretation
+
+While Simple Linear Regression fits a **line**, Multiple Linear Regression fits a **hyperplane** in a $(d+1)$ dimensional space.
+
+- $d=1$: A Line
+- $d=2$: A Plane
+- $d \ge 3$: A Hyperplane
