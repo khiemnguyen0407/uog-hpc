@@ -1,0 +1,11 @@
+{
+    "remote.SSH.remotePlatform": {
+        "cognition.cose.gla.ac.uk": "linux",
+        "rankine.gla.ac.uk": "linux"
+    },
+    "explorer.confirmPasteNative": false,
+    "editor.fontSize": 11,
+    "terminal.integrated.fontSize": 11,
+    "python-envs.defaultEnvManager": "ms-python.python:conda",
+    "python-envs.defaultPackageManager": "ms-python.python:conda"
+}
