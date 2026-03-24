@@ -40,7 +40,7 @@ format:
         # code-block-border-left: false # optional: remove left border
         # highlight-style: monokai      # good for dark images
         toc: true
-        toc-depth: 1
+        toc-depth: 2
         toc-title: Presentation Outline
         chalkboard: true
 ---
@@ -52,6 +52,8 @@ format:
 ```{python}
 import torch
 import numpy as np
+
+device = 'cpu'
 ```
 
 ```{python}
@@ -105,7 +107,7 @@ print(f"Device tensor is stored on: {tensor.device}")
 ```{python}
 # My local machine (laptop) has Nvidia GPU. I also install pytorch on CUDA.
 # Therefore, I can define a tensor on CUDA.
-tensor = torch.rand(size=(3, 4), device='cuda')         
+tensor = torch.rand(size=(3, 4), device=device)       
 print(f"Device tensor is stored on: {tensor.device}")
 ```
 
@@ -198,4 +200,41 @@ print(f"str(x_numpy) = {str(x_numpy)} \n")
 # You don't see the difference for tensor though
 print(f"repr(x_torch) = {repr(x_torch)}")
 print(f"str(x_torch) = {str(x_torch)}")
+```
+
+```{python}
+x_torch.add_(1)
+print(f"x_torch =\n{repr(x_torch)}")
+print(f"x_numpy =\n{repr(x_numpy)}")
+```
+
+```{python}
+y_numpy = 2 * np.ones(5)
+y_torch = torch.from_numpy(y_numpy)
+
+# Again, a change the in NumPy array reflects in the tensor.
+np.add(y_numpy, 1, out=y_numpy)    # this is just y_numpy += 1
+
+print(f"y_torch = {y_torch}")
+print(f"y_numpy = {y_numpy}")
+```
+
+```{python}
+x_numpy = np.random.rand(3, 2)
+x_torch = torch.from_numpy(x_numpy)
+print(f"x_numpy.dtype = {x_numpy.dtype}")
+print(f"x_torch.dtype = {x_torch.dtype}")
+```
+
+```{python}
+x_torch = torch.rand(size=(3, 2))
+x_numpy = x_torch.numpy()
+print(f"x_numpy.dtype = {x_numpy.dtype}")
+print(f"x_torch.dtype = {x_torch.dtype}")
+```
+
+```{python}
+x = torch.rand(size=(3, 2))
+y = torch.from_numpy(np.ones(shape=(3, 2)))
+print(x + y)    # it automatically converts to "bigger" datatype
 ```

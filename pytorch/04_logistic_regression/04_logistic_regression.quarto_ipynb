@@ -1,0 +1,927 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Linear Regression\"\n",
+        "# subtitle: \"More on classes\"\n",
+        "author: |\n",
+        "    Khiem Nguyen \n",
+        "    <br>Lecturer in Multiscale Materials\n",
+        "    <br><khiem.nguyen@glasgow.ac.uk>\n",
+        "author-meta: \"Lecturer in Multiscale Materials\"\n",
+        "format: \n",
+        "    # revealjs:\n",
+        "    #     # embed-resources: true\n",
+        "    #     theme: simple   # other themes: beige, blood, dark, dracula, league, moon, night, serif, simple, sky, solarized\n",
+        "    #     mouse-wheel: true\n",
+        "    #     highlight-style: github\n",
+        "    #     slide-number: true\n",
+        "    #     title-slide-style: pandoc\n",
+        "    #     echo: true\n",
+        "    #     code-overflow: wrap\n",
+        "    #     code-line-numbers: true\n",
+        "    #     code-block-bg: false          # <-- remove white background in code blocks\n",
+        "    #     # code-block-border-left: false # optional: remove left border\n",
+        "    #     # highlight-style: monokai      # good for dark images\n",
+        "    #     toc: true\n",
+        "    #     toc-depth: 1\n",
+        "    #     toc-title: Presentation Outline\n",
+        "    #     chalkboard: true\n",
+        "    #     css: simple.css\n",
+        "\n",
+        "    html:\n",
+        "        embed-resources: true\n",
+        "        theme: simple   # other themes: beige, blood, dark, dracula, league, moon, night, serif, simple, sky, solarized\n",
+        "        mouse-wheel: true\n",
+        "        highlight-style: github\n",
+        "        slide-number: true\n",
+        "        title-slide-style: pandoc\n",
+        "        echo: true\n",
+        "        code-overflow: wrap\n",
+        "        code-line-numbers: true\n",
+        "        code-block-bg: false          # <-- remove white background in code blocks\n",
+        "        # code-block-border-left: false # optional: remove left border\n",
+        "        # highlight-style: monokai      # good for dark images\n",
+        "        toc: true\n",
+        "        toc-depth: 2\n",
+        "        toc-title: Presentation Outline\n",
+        "        chalkboard: true\n",
+        "---\n",
+        "\n",
+        "# Binary classification for data points in 2D plane\n",
+        "\n",
+        "In this first example, we will generate a dataset of two-dimensional data points and assign them the true labels using an ellipse boundary decision. A standard ellipse centered at the origin with the width $2a$ and height $2b$ is described by equation\n",
+        "$$\\frac{x^2}{r_1^2} + \\frac{y^2}{r_2^2} = 1.$$\n",
+        "The ellipse can be parameterized according to\n",
+        "\n",
+        "$$\\left\\{\\begin{aligned}\n",
+        "x(t) &= r_1 \\cos(t) \\\\[6pt]\n",
+        "y(t) &= r_2 \\sin(t) \\end{aligned}\\right. \\quad \\forall t \\in [0, 2\\pi).$$\n",
+        "\n",
+        "Indeed, we can easily see \n",
+        "$$\\begin{equation*}\n",
+        "\\frac{x(t)^2}{a^2} + \\frac{y(t)^2}{b^2} = 1.\n",
+        "\\end{equation*}\n",
+        "$$\n",
+        "\n",
+        "What we want to do now is to assign the data points inside the ellipse the label $1$ and outside the ellipse the label $0$. To make the problem more complex, we shall rotate translate and then rotate the ellipse by a vector $\\mathbf{c}$ and an angle $\\theta$, respectively. The equation describing this ellipse is given by\n",
+        "$$\n",
+        "\\begin{equation*}\n",
+        "E(x_1, x_2) = \\frac{\\big[(x_1 - c_1) \\cos(\\theta) + (x_2 - c_2) \\sin(\\theta) \\big]^2}{r_1^2} + \\frac{\\big[(x_1 - c_1) \\sin(\\theta) - (x_2 - c_2)\\cos(\\theta) \\big]^2}{r_2^2} = 1\n",
+        "\\end{equation*}\n",
+        "$$\n",
+        "The two-dimensional points inside the ellipse are characterized by the inequality $E(x_1, x_2) \\leq 1$ and the data points outside the ellipse by $E(x_1, x_2) > 1$. \n",
+        "\n",
+        "When $\\theta$, $\\mathbf{c} = (c_1, c_2)$ and the axes $r_1$, $r_2$ are viewed as fixed, no matter how complicated the expression $E(x_1, x_2)$ is, it is just a quadratic function of $x_1$ and $x_2$. If we use the logistic regression with second-order polynomial features in terms of $x_1$ and $x_2$, it is reasonable to expect that the decision boundary resulted from the logistic regression model closely fit the ellipse we used to classify the data points. Assume that we use features $x_1$, $x_2$, $x_1 x_2$, $x_1^2$ and $x_2^2$, the decision boundary is described by\n",
+        "$$\n",
+        "\\mathcal{B}(x_1, x_2) := w_{10} x_1 x_2^{0} + w_{01} x_1^{0} x_2 + w_{11} x_1^2 + w_{12} x_1 x_2 + w_{22} x_2^2 + b = 0,\n",
+        "$$\n",
+        "where $w_{ij}$ and $b$ are the weights of the logistic regression model.\n",
+        "\n",
+        "**Remark**\n",
+        "\n",
+        "In theory, we know for sure that there must be an ellipse that perfectly classifiy the data generated as described above because our data have been classified using that \"perfect\" ellipse. This is the example of the data can can be perfectly separated in a high-dimensional space using feature mapping $$\\Phi: (x_1, x_2) \\mapsto \\Phi(x_1, x_2) = (x_1, x_2, x_1^2, x_1 x_2, x_2^2).$$ In the $5$-dimensional space, the dataset $\\mathrm{D} = \\Big\\{(x_1^{(i)}, x_2^{(i)}, x_1^{(i)2}, x_1^{(i)} x_2^{(i)}, x_2^{(i)2})\\Big\\}_{i=1}^{m}$ are perfectly seperated by a hyperplane. A hyperplane is just like a linear straight line in $2D$ space and a linear plane in $3D$ space. I add the prefix \"hyper\" to mean that we can plot it. The prefix \"hyper\" can imply various meanings in different mathematical context. But we should not worry about this in this course. We shall discuss the consequence of this observation after training the model.\n"
+      ],
+      "id": "6edf3223"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# First thing first, import all the necessary packages\n",
+        "\n",
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "import torch\n",
+        "import torch.nn as nn\n",
+        "from tqdm import tqdm\n",
+        "import torch.nn.functional as F"
+      ],
+      "id": "43a0e613",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Generate data"
+      ],
+      "id": "b336b779"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "torch.manual_seed(seed=42)\n",
+        "X = torch.randn(size=(500, 2))\n",
+        "c = torch.tensor([0.25, 0.25])\n",
+        "r = torch.tensor([1.5, 1])\n",
+        "theta = torch.tensor(torch.pi/4)\n",
+        "\n",
+        "a = (X[:,0] - c[0]) * torch.cos(theta) + (X[:,1] - c[1]) * torch.sin(theta)\n",
+        "b = (X[:,0] - c[0]) * torch.sin(theta) - (X[:,1] - c[1]) * torch.cos(theta)\n",
+        "mask = a**2 / r[0]**2 + b**2 / r[1]**2 <= 1\n",
+        "y = torch.zeros(size=(X.shape[0],), dtype=torch.float32)\n",
+        "y[mask] = 1.0\n",
+        "\n",
+        "n_samples, n_features = X.shape\n",
+        "t = torch.linspace(0, 2*torch.pi, 100)\n",
+        "xx = c[0] + r[0] * torch.cos(t) * torch.cos(theta) - r[1] * torch.sin(t) * torch.sin(theta)\n",
+        "yy = c[1] + r[0] * torch.cos(t) * torch.sin(theta) + r[1] * torch.sin(t) * torch.cos(theta)\n",
+        "\n",
+        "# Visualization\n",
+        "plt.figure(figsize=(5, 3.8))\n",
+        "plt.scatter(X[mask,0], X[mask,1], marker='o', color='r', s=10)\n",
+        "plt.scatter(X[~mask,0], X[~mask,1], marker='x', color='b', s=10)\n",
+        "plt.plot(xx, yy, 'k--')\n",
+        "plt.grid(True); plt.show()"
+      ],
+      "id": "07086727",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Build the logistic regression model and train the model"
+      ],
+      "id": "72ec62a4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from sklearn.preprocessing import PolynomialFeatures\n",
+        "poly = PolynomialFeatures(degree=2, include_bias=False)\n",
+        "X_poly = poly.fit_transform(X)\n",
+        "X_poly = torch.from_numpy(X_poly.astype(np.float32))\n",
+        "\n",
+        "print(f\"X_poly.shape = {X_poly.shape}\")"
+      ],
+      "id": "880774c6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from sklearn.preprocessing import PolynomialFeatures\n",
+        "poly = PolynomialFeatures(degree=2, include_bias=False)\n",
+        "X_poly = poly.fit_transform(X)\n",
+        "X_poly = torch.from_numpy(X_poly.astype(np.float32))\n",
+        "\n",
+        "print(f\"X_poly.shape = {X_poly.shape}\")"
+      ],
+      "id": "82f163d5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "class LogisticRegression(nn.Module):\n",
+        "    def __init__(self,n_features):\n",
+        "        super().__init__()\n",
+        "        self.n_classes = 2\n",
+        "        self.lin = nn.Linear(in_features=n_features, out_features=1)\n",
+        "\n",
+        "    def forward(self, x):\n",
+        "        x = self.lin(x)\n",
+        "        x = nn.functional.sigmoid(x)\n",
+        "        return x.flatten()\n",
+        "    \n",
+        "model = LogisticRegression(n_features=X_poly.shape[1])\n",
+        "print(f\"model = \\n{model}\")"
+      ],
+      "id": "06582603",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "x = np.linspace(-10, 10, 1000)\n",
+        "sigmoid = 1 / (1 + np.exp(-x))\n",
+        "plt.figure(figsize=(3.5, 2.8))\n",
+        "plt.plot(x, sigmoid)\n",
+        "plt.grid(True)"
+      ],
+      "id": "63a5d06f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "EPOCHS = int(5e3)\n",
+        "criterion = nn.BCELoss()\n",
+        "optimizer = torch.optim.Adam(model.parameters(), lr=0.1)\n",
+        "n_prints = 10\n",
+        "print_every = int(EPOCHS/n_prints)\n",
+        "for epoch in range(EPOCHS):\n",
+        "    # zero out the gradients\n",
+        "    optimizer.zero_grad()\n",
+        "    # forward pass\n",
+        "    y_prob = model(X_poly)\n",
+        "    loss = criterion(y_prob, y)\n",
+        "    if (epoch % print_every == print_every - 1) or (epoch == EPOCHS-1) or (epoch == 0):\n",
+        "        print(f\"Epoch [{epoch+1} / {EPOCHS}]: loss = {loss.item():6.5f}\")\n",
+        "    # backward pass\n",
+        "    loss.backward()\n",
+        "    optimizer.step()"
+      ],
+      "id": "27301fea",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "y_pred = torch.zeros_like(y_prob)\n",
+        "y_pred[y_prob >= 0.5] = 1\n",
+        "accuracy_score = torch.sum(y_pred == y) / n_samples\n",
+        "print(f\"accuracy score = {accuracy_score:5.4f}\")"
+      ],
+      "id": "1a8577f6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Discussion of the accuracy**"
+      ],
+      "id": "53313323"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Detach the weights and the bias and save them into other variables.\n",
+        "w, b = model.lin.weight.detach().numpy().flatten(), model.lin.bias.detach().numpy()\n",
+        "print(f\"w = {w}\")\n",
+        "print(f\"b = {b}\")"
+      ],
+      "id": "ae990674",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x1 = np.linspace(-1.5, 2, 50)\n",
+        "x2 = np.linspace(-1, 1.5, 50)\n",
+        "X1, X2 = np.meshgrid(x1, x2)\n",
+        "Z = w[0]*X1 + w[1]*X2 + w[2]*X1**2 + w[3]*X1*X2 + w[4]*X2**2 + b\n",
+        "\n",
+        "t = torch.linspace(0, 2*torch.pi, 100)\n",
+        "t = torch.linspace(0, 2*torch.pi, 100)\n",
+        "xx = c[0] + r[0] * torch.cos(t) * torch.cos(theta) - r[1] * torch.sin(t) * torch.sin(theta)\n",
+        "yy = c[1] + r[0] * torch.cos(t) * torch.sin(theta) + r[1] * torch.sin(t) * torch.cos(theta)\n",
+        "\n",
+        "# Visualization\n",
+        "plt.figure(figsize=(5, 5))\n",
+        "cs = plt.contour(X1, X2, Z, levels=[0], colors='k')\n",
+        "plt.scatter(X[mask,0], X[mask,1], marker='o', color='r', s=10)\n",
+        "plt.scatter(X[~mask,0], X[~mask,1], marker='x', color='b', s=10)\n",
+        "plt.plot(xx, yy, 'y--')\n",
+        "plt.grid(True); plt.show()"
+      ],
+      "id": "0d3bbef5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Binary classification with ECG Data"
+      ],
+      "id": "671e9c7f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.loadtxt('./data/ecg/ecg.csv', delimiter=',')\n",
+        "X = torch.from_numpy(data[:,:-1].astype(np.float32))\n",
+        "y = torch.from_numpy(data[:,-1].astype(np.float32))\n",
+        "n_features = X.shape[1]\n",
+        "n_classes = len(torch.unique(y))\n",
+        "print(f\"n_features = {n_features}\")\n",
+        "print(f\"n_classes = {n_classes}\")"
+      ],
+      "id": "4b0323b6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "nrows, ncols = 2, 4\n",
+        "plt.figure(figsize=(8, 3.5))\n",
+        "np.random.seed(seed=42)         # just for reproducibility purpose\n",
+        "for i in range(nrows * ncols):\n",
+        "    plt.subplot(nrows, ncols, i+1)\n",
+        "    idx = np.random.randint(low=0, high=X.shape[0])\n",
+        "    plt.plot(data[idx])\n",
+        "    plt.title(f\"label = {int(y[idx])}\")\n",
+        "    plt.grid(True)\n",
+        "    \n",
+        "plt.tight_layout()"
+      ],
+      "id": "d4fbc7d3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Load dataset by using `TensorDataset`**"
+      ],
+      "id": "b5838c59"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "dataset = torch.utils.data.TensorDataset(X, y)\n",
+        "# Let us look at one data point in the dataset\n",
+        "idx = np.random.randint(low=0, high=len(dataset))\n",
+        "print(f\"dataset[idx]\\n= {dataset[idx]}\",end=\"\\n\\n\")\n",
+        "print(f\"dataset[idx][0].shape = {dataset[idx][0].shape}\")\n",
+        "print(f\"dataset[idx][1].shape = {dataset[idx][1]}\")"
+      ],
+      "id": "b3b516b9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Now we split the dataset by the proportion 80% - 20%.\n",
+        "generator = torch.Generator().manual_seed(42)\n",
+        "train_set, test_set = torch.utils.data.random_split(dataset, [0.8, 0.2], generator=generator)\n",
+        "\n",
+        "print(f\"train_set = {train_set}\")\n",
+        "print(f\"test_set = {test_set}\")"
+      ],
+      "id": "8f946439",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Loading data by using `DataLoader`"
+      ],
+      "id": "31d381be"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=64, shuffle=True)\n",
+        "test_dataloader = torch.utils.data.DataLoader(test_set, batch_size=64, shuffle=False)       # Most of the time we don't need to load the data in the test set.\n",
+        "\n",
+        "# Let us see how they look like:\n",
+        "print(f\"train_dataloader = {train_dataloader}\")\n",
+        "print(f\"valid_dataloader = {test_dataloader}\")"
+      ],
+      "id": "16a813b7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Let us load one batch from the training set\n",
+        "train_dataloader_iter = iter(train_dataloader)  # Convert the dataloader into an iterator\n",
+        "batch = next(train_dataloader_iter)     # get the first element in the iterator. batch is returned as a list\n",
+        "print(f\"type(batch) = {type(batch)}\")\n",
+        "print(f\"One particular batch:\\n{batch}\", end=\"\\n\\n\")\n",
+        "print(f\"len(batch) = {len(batch)}\")"
+      ],
+      "id": "a4d93bcf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "X_batch, y_batch = batch\n",
+        "print(f\"X_batch.shape = {X_batch.shape}\")\n",
+        "print(f\"y_batch.shape = {y_batch.shape}\")"
+      ],
+      "id": "40aa2c76",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Build the logistic regression model and train the model"
+      ],
+      "id": "49209bff"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "class LogisticRegression(nn.Module):\n",
+        "    def __init__(self,n_features):\n",
+        "        super().__init__()\n",
+        "        self.n_classes = 2\n",
+        "        self.lin = nn.Linear(in_features=n_features, out_features=1)\n",
+        "\n",
+        "    def forward(self, x):\n",
+        "        x = self.lin(x)\n",
+        "        x = nn.functional.sigmoid(x)\n",
+        "        return x.flatten()\n",
+        "    \n",
+        "model = LogisticRegression(n_features)"
+      ],
+      "id": "2a8f1ab1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Compute loss function following the analytical formulation we learned in the lecture\n",
+        "loss_eqn = -torch.mean(y_batch * torch.log(model(X_batch)) +  (1 - y_batch) * torch.log(1 - model(X_batch)))\n",
+        "\n",
+        "# \n",
+        "criterion = nn.BCELoss()\n",
+        "loss = criterion(model(X_batch), y_batch)\n",
+        "\n",
+        "print(f\"loss_eqn = {loss_eqn.item()}\")\n",
+        "print(f\"loss     = {loss.item()}\")\n",
+        "print(f\"loss_eqn == loss: {torch.allclose(loss_eqn, loss)}\")"
+      ],
+      "id": "cd92ff03",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# TRAIN THE MODEL\n",
+        "EPOCHS = 50\n",
+        "epoch_stamp = int(EPOCHS/4)\n",
+        "optimizer = torch.optim.Adam(model.parameters(), lr=0.2)\n",
+        "model.train()\n",
+        "for epoch in tqdm(range(EPOCHS)):\n",
+        "    total_loss = 0\n",
+        "    total_accuracy = 0\n",
+        "    for X_batch, y_batch in train_dataloader:\n",
+        "        # zero out the gradients\n",
+        "        optimizer.zero_grad()\n",
+        "        # forward pass\n",
+        "        y_prob = model(X_batch)\n",
+        "        loss = criterion(y_prob, y_batch)\n",
+        "        # backward pass\n",
+        "        loss.backward()\n",
+        "        optimizer.step()\n",
+        "\n",
+        "        total_loss += loss.item()\n",
+        "        y_pred = torch.zeros_like(y_prob, dtype=torch.float32)\n",
+        "        y_pred[y_prob >= 0.5] = 1\n",
+        "        total_accuracy += torch.sum(y_pred == y_batch)\n",
+        "    \n",
+        "    accuracy_score = total_accuracy / len(train_set)\n",
+        "    if epoch % epoch_stamp == epoch_stamp - 1:\n",
+        "        print(f\"epoch {epoch:>2d}:\", end=\" \")\n",
+        "        print(f\"average total loss = {total_loss / len(train_dataloader):7.6f}\")\n",
+        "        print(10 * \" \" + f\"accuracy score     = {accuracy_score:6.5f}\")\n",
+        "\n",
+        "print(\"Final epoch:\")\n",
+        "print(f\"average total loss = {total_loss / len(train_dataloader):7.6f}\")\n",
+        "print(f\"accuracy score     = {accuracy_score:6.5f}\")"
+      ],
+      "id": "f4eb17e5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# We now evaluate the accuracy score of the prediction made on the test set\n",
+        "with torch.no_grad():\n",
+        "    model.eval()\n",
+        "    total_accuracy = 0\n",
+        "    for X_batch, y_batch in test_dataloader:\n",
+        "        y_prob = model(X_batch)     # compute the array of probabilites P(y = 1|batch)\n",
+        "        \n",
+        "        # make prediction\n",
+        "        y_pred = torch.zeros_like(y_prob, dtype=torch.float32)  \n",
+        "        y_pred[y_prob >= 0.5] = 1\n",
+        "        # count the number of correct predictions for one batch\n",
+        "        total_accuracy += torch.sum(y_pred == y_batch)\n",
+        "\n",
+        "    # Of course the final accuracy score is the computed at the end.\n",
+        "    accuracy_score = total_accuracy / len(test_set)\n",
+        "    print(f\"accuracy score = {accuracy_score}\")"
+      ],
+      "id": "24516381",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Multi-category logistic regression\n",
+        "\n",
+        "## Load data from `torchvision` and explore the data"
+      ],
+      "id": "e364b5c0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from torchvision import datasets, transforms\n",
+        "\n",
+        "# First thing first, import all the necessary packages\n",
+        "\n",
+        "import numpy as np\n",
+        "import matplotlib.pyplot as plt\n",
+        "import torch\n",
+        "import torch.nn as nn\n",
+        "from tqdm import tqdm\n",
+        "import torch.nn.functional as F"
+      ],
+      "id": "2199b3b0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "mnist_train = datasets.MNIST(root=\"./datasets\", train=True, transform=transforms.ToTensor(), download=True)\n",
+        "mnist_test = datasets.MNIST(root=\"./datasets\", train=False, transform=transforms.ToTensor(), download=True)"
+      ],
+      "id": "b538a30b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Let us study the dataset we have just downloaded\n",
+        "print(f\"mnist_train = {mnist_train}\")\n",
+        "print(f\"mnist_test = {mnist_test}\")\n",
+        "n_train = len(mnist_train)\n",
+        "n_test = len(mnist_test)\n",
+        "print(f\"n_train = {n_train}\")\n",
+        "print(f\"n_test = {n_test}\")"
+      ],
+      "id": "2dcc97a6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "mnist_train.root, mnist_train.transform, mnist_train.__len__() # note that mnist_train.__len__() is equivalent to len(minist_train)"
+      ],
+      "id": "27108eb7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(f\"len(mnist_train[0]) = {len(mnist_train[0])}\")\n",
+        "print(f\"mnist_train[0][0].shape = {mnist_train[0][0].shape}\")\n",
+        "print(f\"mnist_train[0][1] = {mnist_train[0][1]}\")"
+      ],
+      "id": "87b5c162",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Visualize the images using `matplotlib`.\n",
+        "plt.figure(figsize=(8, 6))\n",
+        "for i in range(12):\n",
+        "    plt.subplot(3,4,i+1)\n",
+        "    image, label = mnist_train[np.random.randint(0, n_train)]       # image: (1, 28, 28), label: integer\n",
+        "    image = image[0]        # index into the batch of one image to obtain the image itself: (28, 28)\n",
+        "    plt.imshow(image, cmap='gray')  # The axis is still there!\n",
+        "    plt.title(f\"$label$ = {label}\")\n",
+        "plt.tight_layout()"
+      ],
+      "id": "fdb6a3c9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "torch.manual_seed(42)       # for reproducibility purpose -- comment this line to see the effect of randomization\n",
+        "train_loader = torch.utils.data.DataLoader(mnist_train, batch_size=60, shuffle=True)\n",
+        "test_loader = torch.utils.data.DataLoader(mnist_test, batch_size=60, shuffle=True)\n",
+        "\n",
+        "data_train_iter = iter(train_loader)\n",
+        "images, labels = next(data_train_iter)\n",
+        "images.shape, labels.shape\n",
+        "\n",
+        "nrows, ncols = 5, 12\n",
+        "plt.figure(figsize=(10, 5.0))\n",
+        "for i in range(nrows * ncols):\n",
+        "    plt.subplot(nrows, ncols, i+1)\n",
+        "    # images[i,0] returns tensor of size (28, 28), using magma color map just for fun\n",
+        "    plt.imshow(images[i,0], cmap='magma')    # other color maps just for fun: \"winter\", \"autumn\", \"plasma\", ...\n",
+        "    plt.axis(False)     # Turn off the axis\n",
+        "\n",
+        "plt.savefig('./figures/table_of_digits.png')"
+      ],
+      "id": "6590ea1b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Build the multi-class logistic regression model and train the model"
+      ],
+      "id": "d0bc99c1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "class MNISTLogisticRegression(nn.Module):\n",
+        "    def __init__(self, n_classes):\n",
+        "        super().__init__()\n",
+        "        self.imsize = np.array([28, 28])\n",
+        "        self.n_classes = n_classes\n",
+        "        self.lin = nn.Linear(np.prod(self.imsize), self.n_classes)\n",
+        "\n",
+        "    def forward(self, x):\n",
+        "        return self.lin(x)"
+      ],
+      "id": "9dd279f9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "imsize = mnist_train[0][0].shape\n",
+        "\n",
+        "model_digits = MNISTLogisticRegression(n_classes=10)\n",
+        "print(f\"The model: \\n{model_digits}\")"
+      ],
+      "id": "994d66eb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Learnable parameters in the model\n",
+        "pl = list(model_digits.parameters())\n",
+        "print(f\"Parameters: \\n{pl}\")"
+      ],
+      "id": "bf19ddde",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "X_batch = images.squeeze().reshape((-1, 28*28))\n",
+        "y_batch = nn.functional.one_hot(labels, num_classes=10)\n",
+        "print(f\"X_batch.shape = {X_batch.shape}\")\n",
+        "print(f\"y_batch.shape = {y_batch.shape}\")\n",
+        "\n",
+        "# Let us see one examples in labels and labels_tensor\n",
+        "print(f\"labels[0] = {labels[0]}\")\n",
+        "print(f\"y_batch[0] = {y_batch[0]}\")"
+      ],
+      "id": "8bc9fd26",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "[**Compute the loss function**]{style=\"color:red\"}"
+      ],
+      "id": "da48e126"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "z = model_digits(X_batch)\n",
+        "print(f\"Z.shape = {z.shape}\")\n",
+        "p = nn.functional.softmax(z, dim=1)\n",
+        "print(f\"p.shape = {p.shape}\")"
+      ],
+      "id": "0e2cd5b4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "py_eq = torch.exp(z) / torch.sum(torch.exp(z), dim=1, keepdim=True)\n",
+        "p = nn.functional.softmax(z, dim=1)\n",
+        "print(py_eq.shape, p.shape)\n",
+        "print(f\"py_eq == p: {torch.allclose(py_eq, p)}\")"
+      ],
+      "id": "750d0178",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Natural and naive implementation\n",
+        "loss_eqn_a = -1/X_batch.shape[0] * torch.sum(torch.sum(y_batch * torch.log(p), dim=1), dim=0)\n",
+        "print(f\"loss_eqn_a = {loss_eqn_a.item()}\")\n",
+        "\n",
+        "# Just a bit more complex way of thinking... but same formulation\n",
+        "loss_eqn_b = torch.mean(-torch.log(py_eq)[range(labels.shape[0]),labels])\n",
+        "print(f\"loss_eqn_b = {loss_eqn_b.item()}\")\n",
+        "\n",
+        "print(f\"loss_eqn_a - loss_eqn_b = {loss_eqn_a - loss_eqn_b}\")"
+      ],
+      "id": "9059bca3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "It turns out that this can be done quite easily using the object `nn.CrossEntropyLoss` or the function `nn.CrossEntropyLoss()`"
+      ],
+      "id": "7b6db051"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "criterion = nn.CrossEntropyLoss(reduction='mean')\n",
+        "logits = model_digits(X_batch)\n",
+        "print(f\"logits.shape = {logits.shape}\")\n",
+        "print(f\"labels.shape = {labels.shape}\")"
+      ],
+      "id": "2b18dda1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "loss_a = criterion(logits, labels)\n",
+        "print(f\"loss_a = {loss_a}\")\n",
+        "\n",
+        "loss_b = F.cross_entropy(logits, labels)\n",
+        "print(f\"loss_b = {loss_b}\")\n",
+        "print(f\"loss_a - loss_b = {loss_a - loss_b}\")"
+      ],
+      "id": "773ded5e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Train the model"
+      ],
+      "id": "e94e72c6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "optimizer = torch.optim.Adam(model_digits.parameters(), lr=0.01)"
+      ],
+      "id": "93c5e124",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Iterate through training set minibatches\n",
+        "EPOCHS = 15\n",
+        "for epoch in tqdm(range(EPOCHS)):\n",
+        "    for images, labels in train_loader:\n",
+        "        # Zero out the gradients\n",
+        "        optimizer.zero_grad()\n",
+        "        # Forward pass\n",
+        "        x = images.view(-1, np.prod(model_digits.imsize))\n",
+        "        y = model_digits(x)\n",
+        "        \n",
+        "        # Backward pass\n",
+        "        loss = F.cross_entropy(y, labels)\n",
+        "        loss.backward()\n",
+        "        # Update learnable parameters\n",
+        "        optimizer.step()\n",
+        "\n",
+        "correct = 0\n",
+        "total = len(mnist_test)\n",
+        "with torch.no_grad():\n",
+        "    # Iterate through test set minibatches\n",
+        "    for images, labels in tqdm(test_loader):\n",
+        "        # Forward pass\n",
+        "        x = images.view(-1, np.prod(model_digits.imsize))\n",
+        "        y = model_digits(x)\n",
+        "        prob = F.softmax(y, dim=1)\n",
+        "        y_pred = torch.argmax(prob, dim=1)\n",
+        "        correct += torch.sum((y_pred == labels).float())\n",
+        "\n",
+        "print(f'Test accuracy: {correct / total}')"
+      ],
+      "id": "837cf37c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Visualization**"
+      ],
+      "id": "6d7eeebd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "nrows, ncols = 3, 5\n",
+        "plt.figure(figsize=(10.0, 6.5))\n",
+        "\n",
+        "for i in range(nrows * ncols):\n",
+        "    plt.subplot(nrows, ncols, i+1)\n",
+        "    # images[i,0] returns tensor of size (28, 28), using magma color map just for fun\n",
+        "    plt.imshow(images[i,0], cmap='magma')    # other color maps just for fun: \"winter\", \"autumn\", \"plasma\", ...\n",
+        "    plt.title(f\"predict: {ypred[i].item()}\", fontsize=15)\n",
+        "    plt.axis(False)     # Turn off the axis\n",
+        "\n",
+        "plt.savefig('./figures/digit_prediction_result.png')"
+      ],
+      "id": "6af87a65",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/root/miniconda3/envs/py3.13/share/jupyter/kernels/python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}

@@ -8,7 +8,7 @@
 
 <meta name="author" content="Lecturer in Multiscale Materials">
 
-<title>Virtual function and Polymorphism</title>
+<title>Tensors in PyTorch</title>
 <style>
 
 code{white-space: pre-wrap;}
@@ -20,6 +20,41 @@ ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+}
+pre.numberSource { margin-left: 3em; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -2172,8 +2207,16 @@ vertical-align: -.125em;
   <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Presentation Outline</h2>
    
-  <ul>
-  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"></a></li>
+  <ul class="collapse">
+  <li><a href="#tensors" id="toc-tensors" class="nav-link active" data-scroll-target="#tensors">Tensors</a>
+  <ul class="collapse">
+  <li><a href="#tensor-initialization" id="toc-tensor-initialization" class="nav-link" data-scroll-target="#tensor-initialization">Tensor initialization</a></li>
+  <li><a href="#attributes-of-tensor" id="toc-attributes-of-tensor" class="nav-link" data-scroll-target="#attributes-of-tensor">Attributes of tensor</a></li>
+  <li><a href="#operations-on-tensors" id="toc-operations-on-tensors" class="nav-link" data-scroll-target="#operations-on-tensors">Operations on tensors</a></li>
+  <li><a href="#arithmetic-operations" id="toc-arithmetic-operations" class="nav-link" data-scroll-target="#arithmetic-operations">Arithmetic operations</a></li>
+  <li><a href="#aggregation" id="toc-aggregation" class="nav-link" data-scroll-target="#aggregation">Aggregation</a></li>
+  <li><a href="#bridge-with-numpy" id="toc-bridge-with-numpy" class="nav-link" data-scroll-target="#bridge-with-numpy">Bridge with NumPy</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -2181,7 +2224,7 @@ vertical-align: -.125em;
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Virtual function and Polymorphism</h1>
+<h1 class="title">Tensors in PyTorch</h1>
 </div>
 
 
@@ -2204,8 +2247,317 @@ vertical-align: -.125em;
 </header>
 
 
-<section id="section" class="level1">
-<h1></h1>
+<section id="tensors" class="level1">
+<h1>Tensors</h1>
+<section id="tensor-initialization" class="level2">
+<h2 class="anchored" data-anchor-id="tensor-initialization">Tensor initialization</h2>
+<div id="4400a834" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a>device <span class="op">=</span> <span class="st">&#39;cpu&#39;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="4a35588e" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>data <span class="op">=</span> [[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]]         </span>
+<span id="cb2-2"><a href="#cb2-2"></a>x_data <span class="op">=</span> torch.tensor(data)     <span class="co"># look just like x = np.array(data)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="49ac77c1" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>np_array <span class="op">=</span> np.array(data)           <span class="co"># create a numpy array</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>x_np <span class="op">=</span> torch.from_numpy(np_array)   <span class="co"># convert the numpy array to a tensor</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="bu">print</span>(x_np)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tensor([[1, 2],
+        [3, 4]])</code></pre>
+</div>
+</div>
+<div id="537d2b92" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>ones_tensor <span class="op">=</span> torch.ones(size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">3</span>))       <span class="co"># Note the keyword argument &quot;size&quot;, its counterpart in NumPy is &quot;shape&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>zeros_tensor <span class="op">=</span> torch.zeros((<span class="dv">2</span>, <span class="dv">3</span>))          <span class="co"># We don&#39;t have to use keyword argument though.</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>rand_tensor <span class="op">=</span> torch.rand(size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb5-4"><a href="#cb5-4"></a></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co"># You can also define the shape as tuple with the last empty element</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>shape <span class="op">=</span> (<span class="dv">2</span>, <span class="dv">3</span>,)</span>
+<span id="cb5-7"><a href="#cb5-7"></a>two_tensor <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> torch.ones(size<span class="op">=</span>shape)     <span class="co"># the multiplication is element-wise operated</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="bu">print</span>(<span class="ss">f&quot;ones_tensor =</span><span class="ch">\n</span><span class="sc">{</span>ones_tensor<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span>)</span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="bu">print</span>(<span class="ss">f&quot;zeros_tensor =</span><span class="ch">\n</span><span class="sc">{</span>zeros_tensor<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span>)</span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="bu">print</span>(<span class="ss">f&quot;rand_tensor =</span><span class="ch">\n</span><span class="sc">{</span>rand_tensor<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span>)</span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="bu">print</span>(<span class="ss">f&quot;two_tensor =</span><span class="ch">\n</span><span class="sc">{</span>two_tensor<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ones_tensor =
+tensor([[1., 1., 1.],
+        [1., 1., 1.]])
+
+zeros_tensor =
+tensor([[0., 0., 0.],
+        [0., 0., 0.]])
+
+rand_tensor =
+tensor([[0.5120, 0.7892, 0.4326],
+        [0.2982, 0.1831, 0.4737]])
+
+two_tensor =
+tensor([[2., 2., 2.],
+        [2., 2., 2.]])</code></pre>
+</div>
+</div>
+<div id="88b9b75c" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>x <span class="op">=</span> torch.tensor([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>], [<span class="fl">4.4</span>, <span class="fl">5.6</span>, <span class="fl">6.5</span>]], dtype<span class="op">=</span>torch.int16)     <span class="co"># You can specify the data type too.</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>x_ones <span class="op">=</span> torch.ones_like(x)</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co"># if you don&#39;t define the dtype, it will give error as it will infer from </span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co"># the data type of x as integer. However, is not possible for a number </span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co"># between 0 and 1 to be an integer.</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>x_rand <span class="op">=</span> torch.rand_like(x, dtype<span class="op">=</span>torch.float32)    </span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="bu">print</span>(<span class="ss">f&quot;x =</span><span class="ch">\n</span><span class="sc">{</span>x<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span>)            <span class="co"># the floating values are then round up to integers.</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="bu">print</span>(<span class="ss">f&quot;x_rand =</span><span class="ch">\n</span><span class="sc">{</span>x_rand<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x =
+tensor([[1, 2, 4],
+        [4, 5, 6]], dtype=torch.int16)
+
+x_rand =
+tensor([[0.2388, 0.8254, 0.8319],
+        [0.7510, 0.4905, 0.0663]])
+</code></pre>
+</div>
+</div>
+</section>
+<section id="attributes-of-tensor" class="level2">
+<h2 class="anchored" data-anchor-id="attributes-of-tensor">Attributes of tensor</h2>
+<div id="559c75e5" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>tensor <span class="op">=</span> torch.rand(<span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="bu">print</span>(<span class="ss">f&quot;Shape of tensor: </span><span class="sc">{</span>tensor<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="bu">print</span>(<span class="ss">f&quot;Datatype of tensor: </span><span class="sc">{</span>tensor<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Device tensor is stored on: </span><span class="sc">{</span>tensor<span class="sc">.</span>device<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shape of tensor: torch.Size([3, 4])
+Datatype of tensor: torch.float32
+Device tensor is stored on: cpu</code></pre>
+</div>
+</div>
+<div id="ac923f00" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># My local machine (laptop) has Nvidia GPU. I also install pytorch on CUDA.</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co"># Therefore, I can define a tensor on CUDA.</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>tensor <span class="op">=</span> torch.rand(size<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">4</span>), device<span class="op">=</span>device)       </span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Device tensor is stored on: </span><span class="sc">{</span>tensor<span class="sc">.</span>device<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Device tensor is stored on: cpu</code></pre>
+</div>
+</div>
+</section>
+<section id="operations-on-tensors" class="level2">
+<h2 class="anchored" data-anchor-id="operations-on-tensors">Operations on tensors</h2>
+<div id="16d8302c" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>tensor <span class="op">=</span> torch.ones((<span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="bu">print</span>(<span class="ss">f&quot;First row: </span><span class="sc">{</span>tensor[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="bu">print</span>(<span class="ss">f&quot;First column: </span><span class="sc">{</span>tensor[:, <span class="dv">0</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="bu">print</span>(<span class="ss">f&quot;Last column: </span><span class="sc">{</span>tensor[..., <span class="op">-</span><span class="dv">1</span>]<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>First row: tensor([1., 1., 1., 1.])
+First column: tensor([1., 1., 1., 1.])
+Last column: tensor([1., 1., 1., 1.])</code></pre>
+</div>
+</div>
+<div id="43d4366d" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Change all the values in the second column to 0</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>tensor[:,<span class="dv">1</span>] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="bu">print</span>(tensor)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tensor([[1., 0., 1., 1.],
+        [1., 0., 1., 1.],
+        [1., 0., 1., 1.],
+        [1., 0., 1., 1.]])</code></pre>
+</div>
+</div>
+<p><strong>Joining tensors</strong></p>
+<div id="f5f88974" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a>t1 <span class="op">=</span> torch.cat([tensor, tensor, tensor], dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="bu">print</span>(t1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tensor([[1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],
+        [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],
+        [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],
+        [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.]])</code></pre>
+</div>
+</div>
+</section>
+<section id="arithmetic-operations" class="level2">
+<h2 class="anchored" data-anchor-id="arithmetic-operations">Arithmetic operations</h2>
+<div id="5654cdb2" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a>a <span class="op">=</span> torch.tensor([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
+<span id="cb19-2"><a href="#cb19-2"></a>b <span class="op">=</span> torch.tensor([<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>])</span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="bu">print</span>(<span class="ss">f&quot;a + b = </span><span class="sc">{</span>a <span class="op">+</span> b<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="bu">print</span>(<span class="ss">f&quot;a - b = </span><span class="sc">{</span>a <span class="op">-</span> b<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="bu">print</span>(<span class="ss">f&quot;a * b = </span><span class="sc">{</span>a <span class="op">*</span> b<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="bu">print</span>(<span class="ss">f&quot;a / b = </span><span class="sc">{</span>a <span class="op">/</span> b<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>a + b = tensor([5, 7, 9])
+a - b = tensor([-3, -3, -3])
+a * b = tensor([ 4, 10, 18])
+a / b = tensor([0.2500, 0.4000, 0.5000])</code></pre>
+</div>
+</div>
+<div id="110c0d92" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># Change all the values in the second column to 0</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>a <span class="op">=</span> torch.tensor([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]],  dtype<span class="op">=</span>torch.float32)  <span class="co"># if you don&#39;t specify the data type, it will be inferred as integer.</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a>b <span class="op">=</span> torch.ones(size<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">4</span>))</span>
+<span id="cb21-4"><a href="#cb21-4"></a><span class="bu">print</span>(<span class="ss">f&quot;a @ b =</span><span class="ch">\n</span><span class="sc">{</span>a<span class="sc">.</span>matmul(b)<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb21-5"><a href="#cb21-5"></a><span class="bu">print</span>(<span class="ss">f&quot;a @ b =</span><span class="ch">\n</span><span class="sc">{</span>a <span class="op">@</span> b<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>a @ b =
+tensor([[ 6.,  6.,  6.,  6.],
+        [15., 15., 15., 15.]])
+a @ b =
+tensor([[ 6.,  6.,  6.,  6.],
+        [15., 15., 15., 15.]])</code></pre>
+</div>
+</div>
+</section>
+<section id="aggregation" class="level2">
+<h2 class="anchored" data-anchor-id="aggregation">Aggregation</h2>
+<div id="f59d0a5c" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a>x <span class="op">=</span> torch.ones(size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>))</span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="bu">print</span>(<span class="ss">f&quot;sum(x)  = </span><span class="sc">{</span>torch<span class="sc">.</span><span class="bu">sum</span>(x)<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span>)</span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="bu">print</span>(<span class="ss">f&quot;x.sum() = </span><span class="sc">{</span>x<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span>)</span>
+<span id="cb23-4"><a href="#cb23-4"></a></span>
+<span id="cb23-5"><a href="#cb23-5"></a><span class="co"># We can perform aggregation along particular dimensions</span></span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="bu">print</span>(<span class="ss">f&quot;x.sum(dim=2) =</span><span class="ch">\n</span><span class="sc">{</span>x<span class="sc">.</span><span class="bu">sum</span>(dim<span class="op">=</span><span class="dv">2</span>)<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span>)</span>
+<span id="cb23-7"><a href="#cb23-7"></a><span class="bu">print</span>(<span class="ss">f&quot;torch.sum(x, dim=2) =</span><span class="ch">\n</span><span class="sc">{</span>torch<span class="sc">.</span><span class="bu">sum</span>(x, dim<span class="op">=</span><span class="dv">2</span>)<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>sum(x)  = 24.0
+
+x.sum() = 24.0
+
+x.sum(dim=2) =
+tensor([[4., 4., 4.],
+        [4., 4., 4.]])
+
+torch.sum(x, dim=2) =
+tensor([[4., 4., 4.],
+        [4., 4., 4.]])
+</code></pre>
+</div>
+</div>
+<div id="f587a599" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a>x <span class="op">=</span> torch.ones(size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb25-2"><a href="#cb25-2"></a>agg <span class="op">=</span> x.<span class="bu">sum</span>()</span>
+<span id="cb25-3"><a href="#cb25-3"></a>agg_item <span class="op">=</span> agg.item()</span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="bu">print</span>(agg, <span class="st">&quot;--&quot;</span>, <span class="bu">type</span>(agg))</span>
+<span id="cb25-5"><a href="#cb25-5"></a><span class="bu">print</span>(agg_item, <span class="st">&quot;--&quot;</span>, <span class="bu">type</span>(agg_item))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tensor(6.) -- &lt;class &#39;torch.Tensor&#39;&gt;
+6.0 -- &lt;class &#39;float&#39;&gt;</code></pre>
+</div>
+</div>
+<div id="780a9347" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a>x <span class="op">=</span> torch.ones(size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb27-2"><a href="#cb27-2"></a>x.add_(<span class="dv">5</span>)       <span class="co"># this is essentially equal to x += 5</span></span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="bu">print</span>(x)</span>
+<span id="cb27-4"><a href="#cb27-4"></a></span>
+<span id="cb27-5"><a href="#cb27-5"></a>x <span class="op">=</span> torch.ones(size<span class="op">=</span>(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb27-6"><a href="#cb27-6"></a>x <span class="op">+=</span> <span class="dv">5</span></span>
+<span id="cb27-7"><a href="#cb27-7"></a><span class="bu">print</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tensor([[6., 6., 6.],
+        [6., 6., 6.]])
+tensor([[6., 6., 6.],
+        [6., 6., 6.]])</code></pre>
+</div>
+</div>
+</section>
+<section id="bridge-with-numpy" class="level2">
+<h2 class="anchored" data-anchor-id="bridge-with-numpy">Bridge with NumPy</h2>
+<section id="tensor-to-numpy-array" class="level3">
+<h3 class="anchored" data-anchor-id="tensor-to-numpy-array">Tensor to NumPy array</h3>
+<div id="2626b95a" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a>x_torch <span class="op">=</span> torch.ones(<span class="dv">5</span>)     <span class="co"># this is a torch tensor</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a></span>
+<span id="cb29-3"><a href="#cb29-3"></a>x_numpy <span class="op">=</span> x_torch.numpy()         <span class="co"># convert a tensor to a numpy array</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a><span class="bu">print</span>(<span class="ss">f&quot;x_torch </span><span class="sc">{</span><span class="bu">type</span>(x_torch)<span class="sc">}</span><span class="ss"> =</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">repr</span>(x_torch)<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span>)  <span class="co"># repr is for developers, str is for normal users</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a><span class="bu">print</span>(<span class="ss">f&quot;x_numpy </span><span class="sc">{</span><span class="bu">type</span>(x_numpy)<span class="sc">}</span><span class="ss"> =</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">repr</span>(x_numpy)<span class="sc">}</span><span class="ch">\n</span><span class="ss">&quot;</span>)</span>
+<span id="cb29-6"><a href="#cb29-6"></a></span>
+<span id="cb29-7"><a href="#cb29-7"></a><span class="bu">print</span>(<span class="st">&quot;Difference between repr vs str</span><span class="ch">\n</span><span class="st">&quot;</span> <span class="op">+</span> <span class="dv">60</span><span class="op">*</span><span class="st">&quot;=&quot;</span>)</span>
+<span id="cb29-8"><a href="#cb29-8"></a><span class="bu">print</span>(<span class="ss">f&quot;repr(x_numpy) = </span><span class="sc">{</span><span class="bu">repr</span>(x_numpy)<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb29-9"><a href="#cb29-9"></a><span class="bu">print</span>(<span class="ss">f&quot;str(x_numpy) = </span><span class="sc">{</span><span class="bu">str</span>(x_numpy)<span class="sc">}</span><span class="ss"> </span><span class="ch">\n</span><span class="ss">&quot;</span>)</span>
+<span id="cb29-10"><a href="#cb29-10"></a></span>
+<span id="cb29-11"><a href="#cb29-11"></a><span class="co"># You don&#39;t see the difference for tensor though</span></span>
+<span id="cb29-12"><a href="#cb29-12"></a><span class="bu">print</span>(<span class="ss">f&quot;repr(x_torch) = </span><span class="sc">{</span><span class="bu">repr</span>(x_torch)<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb29-13"><a href="#cb29-13"></a><span class="bu">print</span>(<span class="ss">f&quot;str(x_torch) = </span><span class="sc">{</span><span class="bu">str</span>(x_torch)<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x_torch &lt;class &#39;torch.Tensor&#39;&gt; =
+tensor([1., 1., 1., 1., 1.])
+
+x_numpy &lt;class &#39;numpy.ndarray&#39;&gt; =
+array([1., 1., 1., 1., 1.], dtype=float32)
+
+Difference between repr vs str
+============================================================
+repr(x_numpy) = array([1., 1., 1., 1., 1.], dtype=float32)
+str(x_numpy) = [1. 1. 1. 1. 1.] 
+
+repr(x_torch) = tensor([1., 1., 1., 1., 1.])
+str(x_torch) = tensor([1., 1., 1., 1., 1.])</code></pre>
+</div>
+</div>
+<div id="22266568" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a>x_torch.add_(<span class="dv">1</span>)</span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="bu">print</span>(<span class="ss">f&quot;x_torch =</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">repr</span>(x_torch)<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="bu">print</span>(<span class="ss">f&quot;x_numpy =</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">repr</span>(x_numpy)<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x_torch =
+tensor([2., 2., 2., 2., 2.])
+x_numpy =
+array([2., 2., 2., 2., 2.], dtype=float32)</code></pre>
+</div>
+</div>
+<div id="316f6a4d" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a>y_numpy <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.ones(<span class="dv">5</span>)</span>
+<span id="cb33-2"><a href="#cb33-2"></a>y_torch <span class="op">=</span> torch.from_numpy(y_numpy)</span>
+<span id="cb33-3"><a href="#cb33-3"></a></span>
+<span id="cb33-4"><a href="#cb33-4"></a><span class="co"># Again, a change the in NumPy array reflects in the tensor.</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a>np.add(y_numpy, <span class="dv">1</span>, out<span class="op">=</span>y_numpy)    <span class="co"># this is just y_numpy += 1</span></span>
+<span id="cb33-6"><a href="#cb33-6"></a></span>
+<span id="cb33-7"><a href="#cb33-7"></a><span class="bu">print</span>(<span class="ss">f&quot;y_torch = </span><span class="sc">{</span>y_torch<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb33-8"><a href="#cb33-8"></a><span class="bu">print</span>(<span class="ss">f&quot;y_numpy = </span><span class="sc">{</span>y_numpy<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y_torch = tensor([3., 3., 3., 3., 3.], dtype=torch.float64)
+y_numpy = [3. 3. 3. 3. 3.]</code></pre>
+</div>
+</div>
+<div id="d33815e1" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1"></a>x_numpy <span class="op">=</span> np.random.rand(<span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb35-2"><a href="#cb35-2"></a>x_torch <span class="op">=</span> torch.from_numpy(x_numpy)</span>
+<span id="cb35-3"><a href="#cb35-3"></a><span class="bu">print</span>(<span class="ss">f&quot;x_numpy.dtype = </span><span class="sc">{</span>x_numpy<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb35-4"><a href="#cb35-4"></a><span class="bu">print</span>(<span class="ss">f&quot;x_torch.dtype = </span><span class="sc">{</span>x_torch<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x_numpy.dtype = float64
+x_torch.dtype = torch.float64</code></pre>
+</div>
+</div>
+<div id="245162b6" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1"></a>x_torch <span class="op">=</span> torch.rand(size<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">2</span>))</span>
+<span id="cb37-2"><a href="#cb37-2"></a>x_numpy <span class="op">=</span> x_torch.numpy()</span>
+<span id="cb37-3"><a href="#cb37-3"></a><span class="bu">print</span>(<span class="ss">f&quot;x_numpy.dtype = </span><span class="sc">{</span>x_numpy<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb37-4"><a href="#cb37-4"></a><span class="bu">print</span>(<span class="ss">f&quot;x_torch.dtype = </span><span class="sc">{</span>x_torch<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x_numpy.dtype = float32
+x_torch.dtype = torch.float32</code></pre>
+</div>
+</div>
+<div id="380dce87" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1"></a>x <span class="op">=</span> torch.rand(size<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">2</span>))</span>
+<span id="cb39-2"><a href="#cb39-2"></a>y <span class="op">=</span> torch.from_numpy(np.ones(shape<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">2</span>)))</span>
+<span id="cb39-3"><a href="#cb39-3"></a><span class="bu">print</span>(x <span class="op">+</span> y)    <span class="co"># it automatically converts to &quot;bigger&quot; datatype</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tensor([[1.9642, 1.9684],
+        [1.7806, 1.2569],
+        [1.9070, 1.4645]], dtype=torch.float64)</code></pre>
+</div>
+</div>
+</section>
+</section>
 </section>
 
 </main>
