@@ -1,0 +1,353 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "title: \"Tensors in PyTorch\"\n",
+        "# subtitle: \"More on classes\"\n",
+        "author: |\n",
+        "    Khiem Nguyen \n",
+        "    <br>Lecturer in Multiscale Materials\n",
+        "    <br><khiem.nguyen@glasgow.ac.uk>\n",
+        "author-meta: \"Lecturer in Multiscale Materials\"\n",
+        "format: \n",
+        "    # revealjs:\n",
+        "    #     # embed-resources: true\n",
+        "    #     theme: simple   # other themes: beige, blood, dark, dracula, league, moon, night, serif, simple, sky, solarized\n",
+        "    #     mouse-wheel: true\n",
+        "    #     highlight-style: github\n",
+        "    #     slide-number: true\n",
+        "    #     title-slide-style: pandoc\n",
+        "    #     echo: true\n",
+        "    #     code-overflow: wrap\n",
+        "    #     code-line-numbers: true\n",
+        "    #     code-block-bg: false          # <-- remove white background in code blocks\n",
+        "    #     # code-block-border-left: false # optional: remove left border\n",
+        "    #     # highlight-style: monokai      # good for dark images\n",
+        "    #     toc: true\n",
+        "    #     toc-depth: 1\n",
+        "    #     toc-title: Presentation Outline\n",
+        "    #     chalkboard: true\n",
+        "    #     css: simple.css\n",
+        "\n",
+        "    html:\n",
+        "        embed-resources: true\n",
+        "        theme: simple   # other themes: beige, blood, dark, dracula, league, moon, night, serif, simple, sky, solarized\n",
+        "        mouse-wheel: true\n",
+        "        highlight-style: github\n",
+        "        slide-number: true\n",
+        "        title-slide-style: pandoc\n",
+        "        echo: true\n",
+        "        code-overflow: wrap\n",
+        "        code-line-numbers: true\n",
+        "        code-block-bg: false          # <-- remove white background in code blocks\n",
+        "        # code-block-border-left: false # optional: remove left border\n",
+        "        # highlight-style: monokai      # good for dark images\n",
+        "        toc: true\n",
+        "        toc-depth: 1\n",
+        "        toc-title: Presentation Outline\n",
+        "        chalkboard: true\n",
+        "---\n",
+        "\n",
+        "# Tensors\n",
+        "\n",
+        "## Tensor initialization"
+      ],
+      "id": "316dc9b8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import torch\n",
+        "import numpy as np"
+      ],
+      "id": "06413268",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = [[1, 2], [3, 4]]         \n",
+        "x_data = torch.tensor(data)     # look just like x = np.array(data)"
+      ],
+      "id": "eac57caf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np_array = np.array(data)           # create a numpy array\n",
+        "x_np = torch.from_numpy(np_array)   # convert the numpy array to a tensor\n",
+        "print(x_np)"
+      ],
+      "id": "aba0699d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "ones_tensor = torch.ones(size=(2, 3))       # Note the keyword argument \"size\", its counterpart in NumPy is \"shape\"\n",
+        "zeros_tensor = torch.zeros((2, 3))          # We don't have to use keyword argument though.\n",
+        "rand_tensor = torch.rand(size=(2, 3))\n",
+        "\n",
+        "# You can also define the shape as tuple with the last empty element\n",
+        "shape = (2, 3,)\n",
+        "two_tensor = 2 * torch.ones(size=shape)     # the multiplication is element-wise operated\n",
+        "\n",
+        "print(f\"ones_tensor =\\n{ones_tensor}\\n\")\n",
+        "print(f\"zeros_tensor =\\n{zeros_tensor}\\n\")\n",
+        "print(f\"rand_tensor =\\n{rand_tensor}\\n\")\n",
+        "print(f\"two_tensor =\\n{two_tensor}\")"
+      ],
+      "id": "b313da87",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = torch.tensor([[1, 2, 4], [4.4, 5.6, 6.5]], dtype=torch.int16)     # You can specify the data type too.\n",
+        "x_ones = torch.ones_like(x)\n",
+        "\n",
+        "# if you don't define the dtype, it will give error as it will infer from \n",
+        "# the data type of x as integer. However, is not possible for a number \n",
+        "# between 0 and 1 to be an integer.\n",
+        "x_rand = torch.rand_like(x, dtype=torch.float32)    \n",
+        "\n",
+        "print(f\"x =\\n{x}\\n\")            # the floating values are then round up to integers.\n",
+        "print(f\"x_rand =\\n{x_rand}\\n\")"
+      ],
+      "id": "0f0ea998",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Attributes of tensor"
+      ],
+      "id": "1176ba1b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "tensor = torch.rand(3, 4)\n",
+        "print(f\"Shape of tensor: {tensor.shape}\")\n",
+        "print(f\"Datatype of tensor: {tensor.dtype}\")\n",
+        "print(f\"Device tensor is stored on: {tensor.device}\")"
+      ],
+      "id": "cd17adb4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# My local machine (laptop) has Nvidia GPU. I also install pytorch on CUDA.\n",
+        "# Therefore, I can define a tensor on CUDA.\n",
+        "tensor = torch.rand(size=(3, 4), device='cuda')         \n",
+        "print(f\"Device tensor is stored on: {tensor.device}\")"
+      ],
+      "id": "87e8666c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Operations on tensors"
+      ],
+      "id": "5306f1bb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "tensor = torch.ones((4, 4))\n",
+        "print(f\"First row: {tensor[0]}\")\n",
+        "print(f\"First column: {tensor[:, 0]}\")\n",
+        "print(f\"Last column: {tensor[..., -1]}\")"
+      ],
+      "id": "41e273cf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Change all the values in the second column to 0\n",
+        "tensor[:,1] = 0\n",
+        "print(tensor)"
+      ],
+      "id": "100a8199",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "**Joining tensors**"
+      ],
+      "id": "cbfe7821"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "t1 = torch.cat([tensor, tensor, tensor], dim=1)\n",
+        "print(t1)"
+      ],
+      "id": "b02beb3c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Arithmetic operations"
+      ],
+      "id": "6aa2f482"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a = torch.tensor([1, 2, 3])\n",
+        "b = torch.tensor([4, 5, 6])\n",
+        "print(f\"a + b = {a + b}\")\n",
+        "print(f\"a - b = {a - b}\")\n",
+        "print(f\"a * b = {a * b}\")\n",
+        "print(f\"a / b = {a / b}\")"
+      ],
+      "id": "90317fb1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Change all the values in the second column to 0\n",
+        "a = torch.tensor([[1, 2, 3], [4, 5, 6]],  dtype=torch.float32)  # if you don't specify the data type, it will be inferred as integer.\n",
+        "b = torch.ones(size=(3, 4))\n",
+        "print(f\"a @ b =\\n{a.matmul(b)}\")\n",
+        "print(f\"a @ b =\\n{a @ b}\")"
+      ],
+      "id": "8612b7a7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Aggregation"
+      ],
+      "id": "8b0102af"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = torch.ones(size=(2, 3, 4))\n",
+        "print(f\"sum(x)  = {torch.sum(x)}\\n\")\n",
+        "print(f\"x.sum() = {x.sum()}\\n\")\n",
+        "\n",
+        "# We can perform aggregation along particular dimensions\n",
+        "print(f\"x.sum(dim=2) =\\n{x.sum(dim=2)}\\n\")\n",
+        "print(f\"torch.sum(x, dim=2) =\\n{torch.sum(x, dim=2)}\\n\")"
+      ],
+      "id": "6bec9552",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = torch.ones(size=(2, 3))\n",
+        "agg = x.sum()\n",
+        "agg_item = agg.item()\n",
+        "print(agg, \"--\", type(agg))\n",
+        "print(agg_item, \"--\", type(agg_item))"
+      ],
+      "id": "8af0192f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = torch.ones(size=(2, 3))\n",
+        "x.add_(5)       # this is essentially equal to x += 5\n",
+        "print(x)\n",
+        "\n",
+        "x = torch.ones(size=(2, 3))\n",
+        "x += 5\n",
+        "print(x)"
+      ],
+      "id": "78e655e5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Bridge with NumPy\n",
+        "\n",
+        "### Tensor to NumPy array"
+      ],
+      "id": "2de25610"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_torch = torch.ones(5)     # this is a torch tensor\n",
+        "\n",
+        "x_numpy = x_torch.numpy()         # convert a tensor to a numpy array\n",
+        "print(f\"x_torch {type(x_torch)} =\\n{repr(x_torch)}\\n\")  # repr is for developers, str is for normal users\n",
+        "print(f\"x_numpy {type(x_numpy)} =\\n{repr(x_numpy)}\\n\")\n",
+        "\n",
+        "print(\"Difference between repr vs str\\n\" + 60*\"=\")\n",
+        "print(f\"repr(x_numpy) = {repr(x_numpy)}\")\n",
+        "print(f\"str(x_numpy) = {str(x_numpy)} \\n\")\n",
+        "\n",
+        "# You don't see the difference for tensor though\n",
+        "print(f\"repr(x_torch) = {repr(x_torch)}\")\n",
+        "print(f\"str(x_torch) = {str(x_torch)}\")"
+      ],
+      "id": "46dc4162",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
