@@ -67,15 +67,15 @@ and then we will see somethings like:
 ## Create a GitHub's repository
 The very first thing to do is creating a repository ('repo' for short) where your project is managed. To do this, open your user navigation menu (the round icon on the top-right corner), then click `Repositories`, see the picture below:
 
-![](git_files/figures/repository_1.png){width=40%}
+![](figures/repository_1.png){width=40%}
 
 And then, click the green `New` button:
 
-![](git_files/figures/repository_2.png){width=50%}
+![](figures/repository_2.png){width=50%}
 
 Finally, configure your repo by filling the boxes, with the important thing being "Choose visibility" of "Public/Private". After that, click "Create repository" to create the repo
 
-![](git_files/figures/repository_3.png){width=50%}
+![](figures/repository_3.png){width=50%}
 
 ## Connect to a GitHub's repository
 Basically, there are two cases to get connected to a GitHub's repo, including connecting to your own GitHub repo and connect to a repo that you are invited by your collaborator. Both cases are done in a very similar way, through either `HTTPS` or `SSH` protocol. 
@@ -84,7 +84,7 @@ Basically, there are two cases to get connected to a GitHub's repo, including co
 
 Either you are connecting to your own repo or to the repo you were invited, the first thing to do is go to that repo to get the directory URL. Depending on which method you prefer, you will select `HTTPS` or `SSH` to get the link. At this point, we work through `HTTPS` and `SSH`, while leave `GitHub CLI` in later topic. 
 
-![](git_files/figures/clone_1.png){width=50%}
+![](figures/clone_1.png){width=50%}
 
 
 ### HTTPS - HyperText Transfer Protocol Secure (good for quick or temporary access)
@@ -104,7 +104,7 @@ For example,
 
 To test the job, in your terminal, at the folder you keep the cloned repository, type `ls` to see whether the repo was sucessfully cloned to you local repo. See the following example of my case, first I go to my `projects` folder where I put the cloned repo of `uog-hpc`, and then `ls`.
 
-![](git_files/figures/clone_2.png){width=80%}
+![](figures/clone_2.png){width=80%}
 
 
 ### SSH - Secure Shell (good practice and recommended)
@@ -190,7 +190,7 @@ This section aims at getting you acquainted with Git through a simple workflow w
 
 First, we need to clone our repo which we already created from GitHub (provide your "passphrase" if it asks you to do so):
 
-![](git_files/figures/get_started_1.png){width="50%"}
+![](figures/get_started_1.png){width="50%"}
 
 ```bash
     git clone git@github.com:huyle-ce/uog_git_tutorial.git
@@ -198,11 +198,11 @@ First, we need to clone our repo which we already created from GitHub (provide y
 
 Go to your terminal , type `ls` to test whether it has done fine!
 
-![](git_files/figures/get_started_2.png){width="50%"}
+![](figures/get_started_2.png){width="50%"}
 
 Now, we can `cd` to the repo and then type `code .` to open VS Code in this repo. It will lead you to a fresh and blank VS Code window. Hereon, you can perform tasks in exactly the same as you normally do with VS Code. Let's create some folders and files so that we can have things to do examples.
 
-![](git_files/figures/get_started_3.png){width="50%"}
+![](figures/get_started_3.png){width="50%"}
 
 You can see the newly created folders and files appear to be green and with letter "U" on the right. This means those files are on `Working Directory` and are not tracked by `Git`, so every change and modification are basically saved on local system. Now, let us do the basic workflow step-by-step.
 
@@ -218,11 +218,11 @@ You can see the newly created folders and files appear to be green and with lett
 
 The statuses of the added files are now changed into "A"
 
-![](git_files/figures/get_started_4.png){width="50%"}
+![](figures/get_started_4.png){width="50%"}
 
 A handy command of a git user is `git status` which is to show the status of the current file. The following picture show the status of the files in which `a_cpp_file.cpp a_python_file.py` were added while the others were not.
 
-![](git_files/figures/get_started_5.png){width="50%"}
+![](figures/get_started_5.png){width="50%"}
 
 Now, we want to do it for all the files.
 
@@ -233,7 +233,7 @@ Now, we want to do it for all the files.
 ```
 Then you can see all the files appearing in your explorer become white and some information is provided in your terminal.
 
-![](git_files/figures/get_started_6.png){width="80%"}
+![](figures/get_started_6.png){width="80%"}
 
 3. Up to this point, your changes are on your `main branch` and are just recorded by Git on your `Local Repository`, nothing has touched your GitHub repo. What we need to to next is `push` it to your remote repo which is essentially your GitHub's repo.
 
@@ -244,10 +244,10 @@ Then you can see all the files appearing in your explorer become white and some 
 What Git actually does is that it push the `main` branch to the `origin` of your remote repo. Recall that the first step is cloning the remote repo to your local machine. Through this process, a "channel" between the `main` and `origin` is established.
 We will go through branches in Git in detail later.
 
-![](git_files/figures/get_started_7.png){width="70%"}
+![](figures/get_started_7.png){width="70%"}
 
 Now, you can revisit your GitHub repo on your web browser, refesh the page and you will see all the files were streamed to there.
 
-![](git_files/figures/get_started_8.png){width="70%"}
+![](figures/get_started_8.png){width="70%"}
 
 **Start from local repository**
